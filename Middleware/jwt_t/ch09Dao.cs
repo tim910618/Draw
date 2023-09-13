@@ -12,46 +12,64 @@ using Microsoft.Extensions.Options;
 namespace backend.Middleware.jwt_t
 {
     public class Ch09Dao
-    
+
     {
         private readonly appSettings _appSettings;
         private readonly MssqlConnect _messqlConnect;
         public Ch09Dao(IOptions<appSettings> appSettings)
         {
-            _appSettings=appSettings.Value;
-            _messqlConnect=new MssqlConnect(_appSettings.db);
+            _appSettings = appSettings.Value;
+            _messqlConnect = new MssqlConnect(_appSettings.db);
         }
         #region 註冊
-        public void Register(Members model)
+        /*public void Register(Members model)
         {
             Hashtable ht=new Hashtable();
-            string sql=$@"INSERT INTO [Members] ([Account],[Password],[Name],[Email]) VALUES (@Account,@Password,@Name,@Email); ";
-            ht.Add(@"@Account",new SQLParameter(model.Account,SqlDbType.VarChar));
-            ht.Add(@"@Password",new SQLParameter(model.Password,SqlDbType.VarChar));
-            ht.Add(@"@Name",new SQLParameter(model.Name,SqlDbType.NVarChar));
-            ht.Add(@"@Email",new SQLParameter(model.Email,SqlDbType.NVarChar));
+            string sql=$@"INSERT INTO members (name,phone,email,password,authcode) VALUES (@name,@phone,@email,@password,@authcode); ";
+            ht.Add(@"@name",new SQLParameter(model.Account,SqlDbType.NVarChar));
+            ht.Add(@"@phone",new SQLParameter(model.Password,SqlDbType.NVarChar));
+            ht.Add(@"@email",new SQLParameter(model.Name,SqlDbType.NVarChar));
+            ht.Add(@"@password",new SQLParameter(model.Email,SqlDbType.NVarChar));
+            ht.Add(@"@authcode",new SQLParameter(model.Email,SqlDbType.NChar));
             _messqlConnect.Execute(sql,ht);
-        }
+        }*/
         #endregion
         public List<Members> GetUserList()
         {
-            string sql=string.Empty;
-            sql=$@"SELECT * FROM [Members]; ";
+            string sql = $@"SELECT * FROM members; ";
+            List<Members> AccountResult = _messqlConnect.GetDataList<Members>(sql);
+
+            List<Members> Result = AccountResult.ToList<Members>();
+            return Result;
+            
+            /*string sql=string.Empty;
+            sql=$@"SELECT * FROM members; ";
             List<Members> AccountResult=_messqlConnect.GetDataList<Members>(sql);
 
             sql=$@"SELECT * FROM [sys_account_role]; ";
             //用範例給的 accountRoleModel
             List<accountRoleModel> RoleModel=_messqlConnect.GetDataList<accountRoleModel>(sql);
             
-            List<Members> Result=AccountResult.GroupJoin(RoleModel,Account => Account.Account, Role => Role.account
+            List<Members> Result=AccountResult.GroupJoin(RoleModel,Account => Account.email, Role => Role.account
                 ,(Account,Role)=>new Members
                 {
-                    Account=Account.Account,
-                    Password=Account.Password,
-                    Name=Account.Name,
-                    Email=Account.Email,
+                    name=Account.name,
+                    phone=Account.phone,
+                    email=Account.email,
+                    password=Account.password,
                     accountRole=RoleModel.Select(role => role).ToList<accountRoleModel>()
                 }).ToList<Members>();
+            return Result;*/
+        }
+
+        public Members GetMember(string email, string password)
+        {
+            var Result = new Members();
+            Hashtable ht = new Hashtable();
+            string sql = $@"Select * from Members where email=@email and password=@password";
+            ht.Add(@"@email", new SQLParameter(email, SqlDbType.NVarChar));
+            ht.Add(@"@password", new SQLParameter(password, SqlDbType.NVarChar));
+            Result = _messqlConnect.GetDataList<Members>(sql, ht).FirstOrDefault();
             return Result;
         }
     }

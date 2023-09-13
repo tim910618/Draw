@@ -20,6 +20,32 @@ namespace backend.Controllers.Ch09
             _logger=logger;
             _service=service;
         }
+
+        [HttpPost]
+        [Route("Regist")]
+        public IActionResult Regist([FromBody] RegisterImportModel newRegist)
+        {
+            try
+            {
+                _service.Register(newRegist);
+                return Ok(new ResultViewModel<string>
+                {
+                    isSuccess=true,
+                    message="註冊成功",
+                    Result=null,
+                });
+            }
+            catch (Exception e)
+            {
+                return NotFound(new ResultViewModel<string>
+                {
+                    isSuccess=false,
+                    message=e.Message.ToString(),
+                    Result=null,
+                });
+            }
+        }
+
         [HttpPost]
         [Route("login")]
         public IActionResult login([FromBody] loginViewModel model)
@@ -41,7 +67,7 @@ namespace backend.Controllers.Ch09
                     return Ok(new ResultViewModel<AuthenticateResponse>
                     {
                         isSuccess=true,
-                        message=string.Empty,
+                        message="登入成功",
                         Result=Result,
                     });
                 }

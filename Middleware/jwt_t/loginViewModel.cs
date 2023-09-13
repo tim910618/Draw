@@ -6,7 +6,7 @@ namespace backend.Middleware.jwt_t
     public class loginViewModel
     {
         [Required]
-        public string Account{get;set;}
+        public string Email{get;set;}
         [Required]
         public string Password{get;set;}
     }
