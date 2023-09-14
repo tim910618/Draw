@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using backend.Models.auth;
 using backend.Models.auth_t;
 using backend.Sqls.mssql;
 using backend.util;
@@ -11,12 +10,12 @@ using Microsoft.Extensions.Options;
 
 namespace backend.Middleware.jwt_t
 {
-    public class Ch09Dao
+    public class loginDao
 
     {
         private readonly appSettings _appSettings;
         private readonly MssqlConnect _messqlConnect;
-        public Ch09Dao(IOptions<appSettings> appSettings)
+        public loginDao(IOptions<appSettings> appSettings)
         {
             _appSettings = appSettings.Value;
             _messqlConnect = new MssqlConnect(_appSettings.db);

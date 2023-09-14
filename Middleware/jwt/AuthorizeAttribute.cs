@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 using backend.ViewModels;
+using backend.Models.auth_t;
 
 namespace backend.Middleware.jwt
 {
@@ -13,7 +14,7 @@ namespace backend.Middleware.jwt
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (JWTUserModel)context.HttpContext.Items["User"];
+            var user = (Members)context.HttpContext.Items["User"];
             if (user == null)
             {
                 // not logged in

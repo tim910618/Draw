@@ -9,12 +9,14 @@ namespace backend.Middleware.jwt
 
         }
 
-        public AuthenticateResponse(string userId, string token)
+        public AuthenticateResponse(string account,string name, string token)
         {
-            this.userId = userId;
+            this.account = account;
+            this.name=name;
             this.token = token;
         }
-        public string userId { get; set; }
+        public string account { get; set; }
+        public string name { get; set; }
         //public List<IDictionary<string, string>> userRole { get; set; }
         public string token { get; set; }
     }

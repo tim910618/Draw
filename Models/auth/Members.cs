@@ -1,7 +1,5 @@
 
 using System.Collections.Generic;
-using backend.Models.auth;
-
 namespace backend.Models.auth_t
 {
     public class Members

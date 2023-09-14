@@ -14,6 +14,7 @@ using backend.Middleware.jwt;
 using backend.util;
 using backend.ViewModels;
 using System.Text.Json;
+using backend.Middleware.jwt_t;
 
 namespace backend.Middleware
 {
@@ -28,7 +29,7 @@ namespace backend.Middleware
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService)
+        public async Task Invoke(HttpContext context, IUserService_T userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
@@ -37,7 +38,7 @@ namespace backend.Middleware
                 await _next(context);
         }
 
-        private async Task attachUserToContext(HttpContext context, IUserService userService,string token)
+        private async Task attachUserToContext(HttpContext context, IUserService_T userService,string token)
         {
 
             //設定HttpRequest與HttpResponse
@@ -159,10 +160,10 @@ namespace backend.Middleware
             return false;
         }
 
-        public Boolean UserChecked(string UserId, IUserService userService)
+        public Boolean UserChecked(string UserId, IUserService_T userService)
         {
             //判斷該帳號是否存在
-            var Users = userService.GetById(UserId);
+            var Users = userService.GetDataById(UserId);
             if (Users == null)
                 return false;
 
@@ -191,7 +192,7 @@ namespace backend.Middleware
             return PermissionChecked;
         }*/
 
-        public List<Dictionary<string, string>> GetRoleList(string Role)
+        /*public List<Dictionary<string, string>> GetRoleList(string Role)
         {
             List<Dictionary<string, string>> RoleList = new List<Dictionary<string, string>>();
 
@@ -206,6 +207,6 @@ namespace backend.Middleware
             }
 
             return RoleList;
-        }
+        }*/
     }
 }

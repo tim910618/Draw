@@ -24,7 +24,6 @@ using backend.util;
 using backend.Schedule;
 
 using Coravel;
-using backend.dao.auth;
 using backend.Middleware.jwt_t;
 
 namespace backend
@@ -73,12 +72,8 @@ namespace backend
 
       # endregion
       // JWT Authorize
-      services.AddScoped<IUserService, JWTUserService>();
-      services.AddScoped<JWTDao>();
-      services.AddScoped<RoleProcessDao>();
-      //第九章
       services.AddScoped<IUserService_T,loginService>();
-      services.AddScoped<Ch09Dao>();
+      services.AddScoped<loginDao>();
       
 
       services.AddControllers()
