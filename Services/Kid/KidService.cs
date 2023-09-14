@@ -24,11 +24,32 @@ namespace backend.Services
         #endregion
 
         #region 全部
-        public List<GuestbooksViewModel> GetDataList()
+        public List<KidViewModel> GetDataList()
         {
-            List<GuestbooksViewModel> Result=new List<GuestbooksViewModel>();
-            List<Guestbooks> DataList=_kidDao.GetDataList();
-            Result = ModelExtension.MatchAndMap<Guestbooks,GuestbooksViewModel>(DataList,Result);
+            List<KidViewModel> Result=new List<KidViewModel>();
+            List<Kids> DataList=_kidDao.GetDataList();
+            foreach(var item in DataList)
+            {
+                Result.Add(new KidViewModel
+                {
+                    name = item.name,
+                    birth = item.birth.ToString(),
+                    gender = item.gender,
+                    age_0004=item.age_0004.ToString(),
+                    age_0006=item.age_0006.ToString(),
+                    age_0009=item.age_0009.ToString(),
+                    age_0100=item.age_0100.ToString(),
+                    age_0103=item.age_0103.ToString(),
+                    age_0106=item.age_0106.ToString(),
+                    age_0200=item.age_0200.ToString(),
+                    age_0206=item.age_0206.ToString(),
+                    age_0300=item.age_0300.ToString(),
+                    age_0306=item.age_0306.ToString(),
+                    age_0400=item.age_0400.ToString(),
+                    age_0500=item.age_0500.ToString(),
+                    age_0600=item.age_0600.ToString(),
+                });
+            }
             return Result;
         }
         #endregion

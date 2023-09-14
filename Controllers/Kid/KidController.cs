@@ -7,20 +7,46 @@ using backend.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using backend.ImportModels;
+using System.Linq;
 
-namespace backend.Controllers{
+namespace backend.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
     public class KidController : ControllerBase
     {
         private readonly ILogger<GuestbooksController> _logger;
         private readonly KidService _service;
-        public KidController(ILogger<GuestbooksController> logger,KidService service)
+        public KidController(ILogger<GuestbooksController> logger, KidService service)
         {
-            this._logger=logger;
-            this._service=service;
+            this._logger = logger;
+            this._service = service;
         }
-        
+
+
+        [HttpGet]
+        public IActionResult Kid()
+        {
+            try
+            {
+                List<KidViewModel> Result = _service.GetDataList();
+                return Ok(new ResultViewModel<List<KidViewModel>>
+                {
+                    isSuccess = false,
+                    message = string.Empty,
+                    Result = Result
+                });
+            }
+            catch (Exception e)
+            {
+                return NotFound(new ResultViewModel<string>
+                {
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null
+                });
+            }
+        }
         #region 新增
         [HttpPost]
         public IActionResult Insert([FromBody] KidInsertImportModel model)
@@ -28,20 +54,20 @@ namespace backend.Controllers{
             try
             {
                 _service.Insert(model);
-                return Ok(new ResultViewModel<GuestbooksViewModel>
+                return Ok(new ResultViewModel<string>
                 {
-                    isSuccess=false,
-                    message="新增成功",
-                    Result=null
+                    isSuccess = false,
+                    message = "新增成功",
+                    Result = null
                 });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return NotFound(new ResultViewModel<GuestbooksViewModel>
+                return NotFound(new ResultViewModel<string>
                 {
-                    isSuccess=false,
-                    message=e.Message.ToString(),
-                    Result=null
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null
                 });
             }
         }
@@ -52,13 +78,13 @@ namespace backend.Controllers{
         {
             try
             {
-                if(_service.GetDataById(model.Id)==null)
+                if (_service.GetDataById(model.Id) == null)
                 {
                     return BadRequest(new ResultViewModel<string>
                     {
-                        isSuccess=false,
-                        message="查無此筆資料，修改失敗",
-                        Result=null
+                        isSuccess = false,
+                        message = "查無此筆資料，修改失敗",
+                        Result = null
                     });
                 }
                 else
@@ -66,62 +92,25 @@ namespace backend.Controllers{
                     _service.Update(model);
                     return Ok(new ResultViewModel<string>
                     {
-                        isSuccess=false,
-                        message="修改成功",
-                        Result=null
+                        isSuccess = false,
+                        message = "修改成功",
+                        Result = null
                     });
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(new ResultViewModel<string>
                 {
-                    isSuccess=false,
-                    message=e.Message.ToString(),
-                    Result=null
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null
                 });
             }
         }
         #endregion
-        #region 回覆
-        [HttpPut]
-        [Route("Reply")]
-        public IActionResult Reply([FromBody] GuestbooksReplyModel model)
-        {
-            try
-            {
-                if(_service.GetDataById(model.Id)==null)
-                {
-                    return BadRequest(new ResultViewModel<string>
-                    {
-                        isSuccess=false,
-                        message="查無此筆資料，回覆失敗",
-                        Result=null
-                    });
-                }
-                else
-                {
-                    _service.Reply(model);
-                    return Ok(new ResultViewModel<string>
-                    {
-                        isSuccess=false,
-                        message="回覆成功",
-                        Result=null
-                    });
-                }
-            }
-            catch(Exception e)
-            {
-                return NotFound(new ResultViewModel<string>
-                {
-                    isSuccess=false,
-                    message=e.Message.ToString(),
-                    Result=null
-                });
-            }
-        }
-        #endregion
-        #region 刪除
+
+        /*#region 刪除
         [HttpDelete]
         public IActionResult Delete(string id)
         {
@@ -157,6 +146,6 @@ namespace backend.Controllers{
                 });
             }
         }
-        #endregion
+        #endregion*/
     }
 }

@@ -52,15 +52,23 @@ namespace backend.dao
         }
         #endregion
         
+        
         #region 全部
-        public List<Guestbooks> GetDataList()
+        public List<Kids> GetDataList()
         {
-            List<Guestbooks> Result=new List<Guestbooks>();
-            string sql=@"SELECT * FROM Guestbooks ";
-            Result=_MssqlConnect.GetDataList<Guestbooks>(sql);
+            List<Kids> Result=new List<Kids>();
+            Hashtable ht=new Hashtable();
+            string sql=@"SELECT * FROM kid WHERE email=@email ";
+            ht.Add(@$"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
+            Result = _MssqlConnect.GetDataList<Kids>(sql, ht);
             return Result;
         }
         #endregion
+
+
+
+
+
         #region 單筆
         public Guestbooks GetDataById(string id)
         {

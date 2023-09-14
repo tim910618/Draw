@@ -67,12 +67,14 @@ namespace backend
       services.AddScoped<Services.sampleService>();
       services.AddScoped<Services.GuestbooksService>();
       services.AddScoped<Services.KidService>();
+      services.AddScoped<Services.PaintingService>();
 
 
       // Dao
       services.AddScoped<dao.sampleDao>();
       services.AddScoped<dao.guestbooksDao>();
       services.AddScoped<dao.kidDao>();
+      services.AddScoped<dao.PaintingDao>();
 
 
       # endregion
