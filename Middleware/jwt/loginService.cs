@@ -22,6 +22,7 @@ namespace backend.Middleware.jwt_t
         IEnumerable<Members> GetAll();
         Members GetDataById(string Account);
         void Register(RegisterImportModel model);
+        bool checkMember(string email);
     }
     public class loginService : IUserService_T
     {
@@ -37,19 +38,20 @@ namespace backend.Middleware.jwt_t
 
 
         #region 註冊
-        /*public void Register(RegisterImportModel model)
+        public void Register(RegisterImportModel model)
         {
             sha256Hash sha256 = new sha256Hash();
             Members Data = new Members
             {
-                Account = model.Account,
-                Password = sha256.getSha256(model.Password, this._appSettings.hash_key),
-                Name = model.Name,
-                Email = model.Email,
+                name = model.name,
+                phone = model.phone,
+                email = model.email,
+                password = sha256.getSha256(model.password, this._appSettings.hash_key),
+                authcode="000000",
             };
             _dao.Register(Data);
             //SendMail(Data.Email);
-        }*/
+        }
         /*public string SendMail(string to_email)
         {
             mail mail=new mail();
@@ -104,6 +106,18 @@ namespace backend.Middleware.jwt_t
             return _user.FirstOrDefault(m => m.email == Email);
         }
 
+        public bool checkMember(string email)
+        {
+            if(_user.FirstOrDefault(m => m.email == email) != null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public string generateJwtToken(Members user)
         {
             var header = new JwtSecurityTokenHandler();
@@ -134,9 +148,9 @@ namespace backend.Middleware.jwt_t
             return result;
         }*/
 
-        public void Register(RegisterImportModel model)
+        /*public void Register(RegisterImportModel model)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

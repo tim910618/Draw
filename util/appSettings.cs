@@ -10,5 +10,6 @@ namespace backend.util
         public string jwt_secret {get;set;}
         public string db {get;set;}
         public string hash_key { get; set; }
+        public string UploadPath{get;set;}
     }
 }

@@ -11,14 +11,14 @@ namespace backend.Controllers.Ch09
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ParentsController:ControllerBase
+    public class ParentsController : ControllerBase
     {
         private readonly ILogger<ParentsController> _logger;
         private readonly IUserService_T _service;
-        public ParentsController(ILogger<ParentsController> logger,IUserService_T service)
+        public ParentsController(ILogger<ParentsController> logger, IUserService_T service)
         {
-            _logger=logger;
-            _service=service;
+            _logger = logger;
+            _service = service;
         }
 
         [HttpPost]
@@ -27,21 +27,33 @@ namespace backend.Controllers.Ch09
         {
             try
             {
-                _service.Register(newRegist);
-                return Ok(new ResultViewModel<string>
+                if (_service.checkMember(newRegist.email))
                 {
-                    isSuccess=true,
-                    message="註冊成功",
-                    Result=null,
-                });
+                    _service.Register(newRegist);
+                    return Ok(new ResultViewModel<string>
+                    {
+                        isSuccess = true,
+                        message = "註冊成功",
+                        Result = null,
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ResultViewModel<string>
+                    {
+                        isSuccess = false,
+                        message = "此帳號已被註冊",
+                        Result = null,
+                    });
+                }
             }
             catch (Exception e)
             {
                 return NotFound(new ResultViewModel<string>
                 {
-                    isSuccess=false,
-                    message=e.Message.ToString(),
-                    Result=null,
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null,
                 });
             }
         }
@@ -52,33 +64,33 @@ namespace backend.Controllers.Ch09
         {
             try
             {
-                AuthenticateResponse Result=_service.Authenticate(model);
-                if(Result == null)
+                AuthenticateResponse Result = _service.Authenticate(model);
+                if (Result == null)
                 {
                     return BadRequest(new ResultViewModel<string>
                     {
-                        isSuccess=false,
-                        message="帳號密碼輸入錯誤",
-                        Result=null,
+                        isSuccess = false,
+                        message = "帳號密碼輸入錯誤",
+                        Result = null,
                     });
                 }
                 else
                 {
                     return Ok(new ResultViewModel<AuthenticateResponse>
                     {
-                        isSuccess=true,
-                        message="登入成功",
-                        Result=Result,
+                        isSuccess = true,
+                        message = "登入成功",
+                        Result = Result,
                     });
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return NotFound(new ResultViewModel<string>
                 {
-                    isSuccess=false,
-                    message=e.Message.ToString(),
-                    Result=null,
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null,
                 });
             }
         }

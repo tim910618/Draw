@@ -21,17 +21,17 @@ namespace backend.Middleware.jwt_t
             _messqlConnect = new MssqlConnect(_appSettings.db);
         }
         #region 註冊
-        /*public void Register(Members model)
+        public void Register(Members model)
         {
             Hashtable ht=new Hashtable();
             string sql=$@"INSERT INTO members (name,phone,email,password,authcode) VALUES (@name,@phone,@email,@password,@authcode); ";
-            ht.Add(@"@name",new SQLParameter(model.Account,SqlDbType.NVarChar));
-            ht.Add(@"@phone",new SQLParameter(model.Password,SqlDbType.NVarChar));
-            ht.Add(@"@email",new SQLParameter(model.Name,SqlDbType.NVarChar));
-            ht.Add(@"@password",new SQLParameter(model.Email,SqlDbType.NVarChar));
-            ht.Add(@"@authcode",new SQLParameter(model.Email,SqlDbType.NChar));
+            ht.Add(@"@name",new SQLParameter(model.name,SqlDbType.NVarChar));
+            ht.Add(@"@phone",new SQLParameter(model.phone,SqlDbType.NVarChar));
+            ht.Add(@"@email",new SQLParameter(model.email,SqlDbType.NVarChar));
+            ht.Add(@"@password",new SQLParameter(model.password,SqlDbType.NVarChar));
+            ht.Add(@"@authcode",new SQLParameter(model.authcode,SqlDbType.NChar));
             _messqlConnect.Execute(sql,ht);
-        }*/
+        }
         #endregion
         public List<Members> GetUserList()
         {
