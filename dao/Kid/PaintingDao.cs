@@ -38,7 +38,7 @@ namespace backend.dao
         }
 
         #region 新增
-        public void Insert(PaintingInsertImportModel model, string path)
+        public void Insert(PaintingInsertImportModel model, string FileName)
         {
             Hashtable ht = new Hashtable();
             string date = common.DateFormat_full(DateTime.Now);
@@ -46,10 +46,10 @@ namespace backend.dao
             string sql = $@"INSERT INTO painting(painting_id,kid_id,picture,result,create_time)
                 VALUES (NEWID(),@kid_id,@picture,@result,@create_time)";
 
-            ht.Add(@"@kid_id", new SQLParameter(model.kid_id, SqlDbType.UniqueIdentifier));
-            ht.Add(@"@picture", new SQLParameter(path, SqlDbType.NVarChar));
+            ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(model.kid_id), SqlDbType.UniqueIdentifier));
+            ht.Add(@"@picture", new SQLParameter(FileName, SqlDbType.NVarChar));
             ht.Add(@"@result", new SQLParameter(model.result, SqlDbType.NVarChar));
-            ht.Add(@"@create_time", new SQLParameter(model.create_time, SqlDbType.DateTime2));
+            ht.Add(@"@create_time", new SQLParameter(date, SqlDbType.DateTime2));
             _MssqlConnect.Execute(sql,ht);
         }
         #endregion

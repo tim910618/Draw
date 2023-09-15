@@ -32,6 +32,7 @@ namespace backend.Services
             {
                 Result.Add(new KidViewModel
                 {
+                    kid_id=item.kid_id.ToString(),
                     name = item.name,
                     birth = item.birth.ToString(),
                     gender = item.gender,

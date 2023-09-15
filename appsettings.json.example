@@ -12,8 +12,9 @@
   },
   "appSettings": {
     "jwt_secret": "weqoiruwpoijfxcn!@#$%^&*()",
-    "db":"Server=localhost;Database=newfields_dotnet_db;User Id=sa;Password=123456;",
-    "hash_key": "850c6f38-36a4-4777-8d75-07718ec34926"
+    //"db":"Server=localhost;Database=Draw_db;User Id=;Password=;",
+    "db":"Server=localhost;Database=Draw_db;Integrated Security=True;",
+    "hash_key": "850c6f38-36a4-4777-8d75-07718ec34926",
     "UploadPath":"C:\\IMAGE"
   }
 }

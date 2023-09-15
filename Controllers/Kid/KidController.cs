@@ -23,7 +23,7 @@ namespace backend.Controllers
             this._service = service;
         }
 
-
+        #region 顯示小孩資料
         [HttpGet]
         public IActionResult Kid()
         {
@@ -47,7 +47,8 @@ namespace backend.Controllers
                 });
             }
         }
-        #region 新增
+        #endregion
+        #region 新增小孩
         [HttpPost]
         public IActionResult Insert([FromBody] KidInsertImportModel model)
         {
@@ -72,6 +73,15 @@ namespace backend.Controllers
             }
         }
         #endregion
+
+
+
+
+
+
+
+
+
         #region 修改
         [HttpPut]
         public IActionResult Update([FromBody] GuestbooksUpdateModel model)

@@ -52,8 +52,7 @@ namespace backend.dao
         }
         #endregion
         
-        
-        #region 全部
+        #region 自己的小孩
         public List<Kids> GetDataList()
         {
             List<Kids> Result=new List<Kids>();

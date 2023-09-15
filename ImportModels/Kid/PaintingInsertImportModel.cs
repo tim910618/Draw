@@ -6,8 +6,7 @@ namespace backend.ImportModels{
     
     public class PaintingInsertImportModel{
         public string kid_id{get;set;}
-        public IFormFile pic{get;set;}
+        public IFormFile picture{get;set;}
         public string result{get;set;}
-        public string create_time{get;set;}
     }
 }
