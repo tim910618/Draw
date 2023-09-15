@@ -8,6 +8,7 @@ namespace backend.ViewModels
         public string name{get;set;}
         public string birth{get;set;}
         public bool gender{get;set;}
+        public string image{get;set;}
         public string? age_0004{get;set;}
         public string? age_0006{get;set;}
         public string? age_0009{get;set;}

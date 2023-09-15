@@ -8,6 +8,7 @@ namespace backend.Models{
         public string name{get;set;}
         public DateTime birth{get;set;}
         public bool gender{get;set;}
+        public string image{get;set;}
         public int? age_0004{get;set;}
         public int? age_0006{get;set;}
         public int? age_0009{get;set;}

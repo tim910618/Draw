@@ -42,7 +42,7 @@ namespace backend.dao
         {
             Hashtable ht=new Hashtable();
             Guid newGuid = Guid.NewGuid();
-            string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender) VALUES (@email,@kid_id,@name,@birth,@gender); ";
+            string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender,image) VALUES (@email,@kid_id,@name,@birth,@gender,@image); ";
             ht.Add(@"@email", new SQLParameter(_AccountNumber,SqlDbType.NVarChar));
             ht.Add(@"@kid_id",new SQLParameter(newGuid,SqlDbType.UniqueIdentifier));
             ht.Add(@"@name",new SQLParameter(model.name,SqlDbType.NVarChar));
@@ -64,22 +64,22 @@ namespace backend.dao
         }
         #endregion
 
-
-
-
-
         #region 單筆
-        public Guestbooks GetDataById(string id)
+        public Kids GetDataByKid_Id(KidOnlyModel Data)
         {
             Hashtable ht=new Hashtable();
-            Guestbooks Result=new Guestbooks();
-            string sql=$@"SELECT * FROM Guestbooks WHERE Id=@Id; ";
-            ht.Add(@"@Id",new SQLParameter(id,SqlDbType.Int));
-            Result=_MssqlConnect.GetDataList<Guestbooks>(sql,ht).FirstOrDefault();
+            Kids Result=new Kids();
+            string sql=@"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
+            ht.Add(@"@email",new SQLParameter(_AccountNumber,SqlDbType.NVarChar));
+            ht.Add(@"@kid_id",new SQLParameter(Guid.Parse(Data.kid_id),SqlDbType.UniqueIdentifier));
+            Result=_MssqlConnect.GetDataList<Kids>(sql,ht).FirstOrDefault();
             return Result;
         }
         #endregion
         
+
+
+
         #region 修改
         public void Update(Guestbooks model)
         {

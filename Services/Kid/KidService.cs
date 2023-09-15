@@ -5,74 +5,117 @@ using backend.Models;
 using backend.Extensions;
 using backend.ImportModels;
 using System;
+using System.IO;
+using Microsoft.Extensions.Options;
+using backend.util;
 
 namespace backend.Services
 {
     public class KidService
     {
+        private readonly appSettings _appSettings;
         private readonly kidDao _kidDao;
-        public KidService(kidDao kidDao)
+        public KidService(IOptions<appSettings> appSettings, kidDao kidDao)
         {
-            this._kidDao=kidDao;
+            _appSettings = appSettings.Value;
+            this._kidDao = kidDao;
         }
 
         #region 新增
         public void Insert(KidInsertImportModel model)
         {
+            var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+            var folderPath = Path.Combine(this._appSettings.UploadPath, "ParentHead");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            var path = Path.Combine(folderPath, FileName);
             _kidDao.Insert(model);
+
+            //存到路徑裡面
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                model.image.CopyTo(stream);
+            }
         }
         #endregion
 
         #region 全部
         public List<KidViewModel> GetDataList()
         {
-            List<KidViewModel> Result=new List<KidViewModel>();
-            List<Kids> DataList=_kidDao.GetDataList();
-            foreach(var item in DataList)
+            List<KidViewModel> Result = new List<KidViewModel>();
+            List<Kids> DataList = _kidDao.GetDataList();
+            foreach (var item in DataList)
             {
                 Result.Add(new KidViewModel
                 {
-                    kid_id=item.kid_id.ToString(),
+                    kid_id = item.kid_id.ToString(),
                     name = item.name,
                     birth = item.birth.ToString(),
                     gender = item.gender,
-                    age_0004=item.age_0004.ToString(),
-                    age_0006=item.age_0006.ToString(),
-                    age_0009=item.age_0009.ToString(),
-                    age_0100=item.age_0100.ToString(),
-                    age_0103=item.age_0103.ToString(),
-                    age_0106=item.age_0106.ToString(),
-                    age_0200=item.age_0200.ToString(),
-                    age_0206=item.age_0206.ToString(),
-                    age_0300=item.age_0300.ToString(),
-                    age_0306=item.age_0306.ToString(),
-                    age_0400=item.age_0400.ToString(),
-                    age_0500=item.age_0500.ToString(),
-                    age_0600=item.age_0600.ToString(),
+                    image = item.image,
+                    age_0004 = item.age_0004.ToString(),
+                    age_0006 = item.age_0006.ToString(),
+                    age_0009 = item.age_0009.ToString(),
+                    age_0100 = item.age_0100.ToString(),
+                    age_0103 = item.age_0103.ToString(),
+                    age_0106 = item.age_0106.ToString(),
+                    age_0200 = item.age_0200.ToString(),
+                    age_0206 = item.age_0206.ToString(),
+                    age_0300 = item.age_0300.ToString(),
+                    age_0306 = item.age_0306.ToString(),
+                    age_0400 = item.age_0400.ToString(),
+                    age_0500 = item.age_0500.ToString(),
+                    age_0600 = item.age_0600.ToString(),
                 });
             }
             return Result;
         }
         #endregion
         #region 單筆
-        public GuestbooksViewModel GetDataById(string id)
+        public KidViewModel GetDataByKid_Id(KidOnlyModel Data)
         {
-            GuestbooksViewModel Result=new GuestbooksViewModel();
-            Guestbooks Data=_kidDao.GetDataById(id);
-            if(Data==null) return null;
-            Result=ModelExtension.OneMatchAndMap<Guestbooks,GuestbooksViewModel>(Data,Result);
+            KidViewModel Result = new KidViewModel();
+            Kids OnlyKid = _kidDao.GetDataByKid_Id(Data);
+            
+            if (OnlyKid == null) return null;
+            Result = new KidViewModel
+                {
+                    kid_id = OnlyKid.kid_id.ToString(),
+                    name = OnlyKid.name,
+                    birth = OnlyKid.birth.ToString(),
+                    gender = OnlyKid.gender,
+                    image = OnlyKid.image,
+                    age_0004 = OnlyKid.age_0004.ToString(),
+                    age_0006 = OnlyKid.age_0006.ToString(),
+                    age_0009 = OnlyKid.age_0009.ToString(),
+                    age_0100 = OnlyKid.age_0100.ToString(),
+                    age_0103 = OnlyKid.age_0103.ToString(),
+                    age_0106 = OnlyKid.age_0106.ToString(),
+                    age_0200 = OnlyKid.age_0200.ToString(),
+                    age_0206 = OnlyKid.age_0206.ToString(),
+                    age_0300 = OnlyKid.age_0300.ToString(),
+                    age_0306 = OnlyKid.age_0306.ToString(),
+                    age_0400 = OnlyKid.age_0400.ToString(),
+                    age_0500 = OnlyKid.age_0500.ToString(),
+                    age_0600 = OnlyKid.age_0600.ToString(),
+                };
             return Result;
         }
         #endregion
-        
+
+
+
+
         #region 修改
         public void Update(GuestbooksUpdateModel model)
         {
-            Guestbooks Data=new Guestbooks
+            Guestbooks Data = new Guestbooks
             {
-                Id=Convert.ToInt32(model.Id),
-                Name=model.Name,
-                Content=model.Content
+                Id = Convert.ToInt32(model.Id),
+                Name = model.Name,
+                Content = model.Content
             };
             _kidDao.Update(Data);
         }
@@ -80,10 +123,10 @@ namespace backend.Services
         #region 回覆
         public void Reply(GuestbooksReplyModel model)
         {
-            Guestbooks Data=new Guestbooks
+            Guestbooks Data = new Guestbooks
             {
-                Id=Convert.ToInt32(model.Id),
-                Reply=model.Reply,
+                Id = Convert.ToInt32(model.Id),
+                Reply = model.Reply,
             };
             _kidDao.Reply(Data);
         }
