@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -53,7 +54,7 @@ namespace backend.Middleware.jwt_t
             Hashtable ht = new Hashtable();
             string sql = $@"UPDATE MEMBERS SET authcode=@authcode WHERE email=@email ";
             ht.Add(@"@email", new SQLParameter(Data.email, SqlDbType.NVarChar));
-            ht.Add(@"@authcode", new SQLParameter(Data.authcode, SqlDbType.NChar));
+            ht.Add(@"@authcode", new SQLParameter("0000000000", SqlDbType.NChar));
             _messqlConnect.Execute(sql, ht);
         }
         #endregion

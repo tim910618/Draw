@@ -75,7 +75,7 @@ namespace backend.Controllers.Ch09
             }
         }
 
-        /*[HttpGet("emailValidate")]
+        [HttpGet("emailValidate")]
         public IActionResult EmailValidate([FromQuery] EmailValidate Data)
         {
             try
@@ -86,11 +86,11 @@ namespace backend.Controllers.Ch09
                 {
                     if (ValidateMember.authcode == Data.authcode)
                     {
-                        string message=_service.EmailValidate(Data);
+                        _service.EmailValidate(Data);
                         return Ok(new ResultViewModel<string>
                         {
                             isSuccess = true,
-                            message = message,
+                            message = "驗證成功，現在可以登入",
                             Result = null,
                         });
                     }
@@ -123,7 +123,7 @@ namespace backend.Controllers.Ch09
                     Result = null,
                 });
             }
-        }*/
+        }
         #endregion
 
 
@@ -133,23 +133,36 @@ namespace backend.Controllers.Ch09
         {
             try
             {
-                AuthenticateResponse Result = _service.Authenticate(model);
-                if (Result == null)
+                Members member = _service.GetDataById(model.Email);
+                if (member.authcode == "0000000000")
+                {
+                    AuthenticateResponse Result = _service.Authenticate(model);
+                    if (Result == null)
+                    {
+                        return BadRequest(new ResultViewModel<string>
+                        {
+                            isSuccess = false,
+                            message = "帳號密碼輸入錯誤",
+                            Result = null,
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new ResultViewModel<AuthenticateResponse>
+                        {
+                            isSuccess = true,
+                            message = "登入成功",
+                            Result = Result,
+                        });
+                    }
+                }
+                else
                 {
                     return BadRequest(new ResultViewModel<string>
                     {
                         isSuccess = false,
-                        message = "帳號密碼輸入錯誤",
+                        message = "尚未驗證通過，請去EMAIL收信進行驗證",
                         Result = null,
-                    });
-                }
-                else
-                {
-                    return Ok(new ResultViewModel<AuthenticateResponse>
-                    {
-                        isSuccess = true,
-                        message = "登入成功",
-                        Result = Result,
                     });
                 }
             }

@@ -26,7 +26,7 @@ namespace backend.Middleware.jwt_t
         Members GetDataById(string Account);
         void Register(RegisterImportModel model);
         bool checkMember(string email);
-        //string EmailValidate(EmailValidate Data);
+        void EmailValidate(EmailValidate Data);
         void Edit(EditModel EditData);
         void ForgetPassword(ForgetPasswordImportModel Data);
     }
@@ -67,7 +67,7 @@ namespace backend.Middleware.jwt_t
                 image = FileName,
             };
             _dao.Register(Data);
-            
+
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -76,35 +76,23 @@ namespace backend.Middleware.jwt_t
 
             string filePath = @"Views/RegisterEmail.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            var validateUrl = new
+            /*var validateUrl = new
             {
                 name = Data.name,
                 AuthCode = Data.authcode
-            };
-            string mailBody = _mailService.GetRegisterMailBody(TempString, validateUrl.name, validateUrl.ToString().Replace("%3F", "?"));
+            };*/
+
+            //有問題
+            string baseUrl = "http://127.0.0.1:5001"; // 替換為實際的網站基本 URL
+            string validateUrl = baseUrl + "/Parents/emailValidate?email=" + Data.email + "&AuthCode=" + Data.authcode;
+
+            string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, validateUrl.ToString().Replace("%3F", "?"));
             _mailService.SendRegisterMail(mailBody, model.email);
         }
-        //SendMail(Data.Email);
-        /*public string SendMail(string to_email)
+        public void EmailValidate(EmailValidate Data)
         {
-            mail mail=new mail();
-            
-            SMTPModel data=new SMTPModel
-            {
-                SMTP_FROM_MAIL="",
-                SMTP_FROM_NAME="",
-                SMTP_HOST="",
-                SMTP_PORT="",
-                SMTP_USER="",
-                SMTP_PWD="",
-                SMTP_AUTH="",
-                SMTP_SSL="",
-            };
-        }*/
-        /*public string EmailValidate(EmailValidate Data)
-        {
-            return _dao.EmailValidate(Data);
-        }*/
+            _dao.EmailValidate(Data);
+        }
         #endregion
 
         public AuthenticateResponse Authenticate(loginViewModel model)
@@ -129,7 +117,6 @@ namespace backend.Middleware.jwt_t
 
             //製作Token
             var token = generateJwtToken(user);
-
             return new AuthenticateResponse(user.email.ToString(), user.name.ToString(), token);
         }
 
@@ -188,7 +175,7 @@ namespace backend.Middleware.jwt_t
                 image = FileName,
             };
             _dao.Edit(Data);
-            
+
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
             {
