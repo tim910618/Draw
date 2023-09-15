@@ -38,7 +38,7 @@ namespace backend.dao
         }
 
         #region 新增
-        public void Insert(KidInsertImportModel model)
+        public void Insert(KidInsertImportModel model,string FileName)
         {
             Hashtable ht=new Hashtable();
             Guid newGuid = Guid.NewGuid();
@@ -48,6 +48,7 @@ namespace backend.dao
             ht.Add(@"@name",new SQLParameter(model.name,SqlDbType.NVarChar));
             ht.Add(@"@birth",new SQLParameter(model.birth,SqlDbType.DateTime2));
             ht.Add(@"@gender",new SQLParameter(model.gender,SqlDbType.Bit));
+            ht.Add(@"@image",new SQLParameter(FileName,SqlDbType.NVarChar));
             _MssqlConnect.Execute(sql,ht);
         }
         #endregion
@@ -65,33 +66,32 @@ namespace backend.dao
         #endregion
 
         #region 單筆
-        public Kids GetDataByKid_Id(KidOnlyModel Data)
+        public Kids GetDataByKid_Id(string kid_id)
         {
             Hashtable ht=new Hashtable();
             Kids Result=new Kids();
             string sql=@"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
             ht.Add(@"@email",new SQLParameter(_AccountNumber,SqlDbType.NVarChar));
-            ht.Add(@"@kid_id",new SQLParameter(Guid.Parse(Data.kid_id),SqlDbType.UniqueIdentifier));
+            ht.Add(@"@kid_id",new SQLParameter(Guid.Parse(kid_id),SqlDbType.UniqueIdentifier));
             Result=_MssqlConnect.GetDataList<Kids>(sql,ht).FirstOrDefault();
             return Result;
         }
         #endregion
-        
-
-
 
         #region 修改
-        public void Update(Guestbooks model)
+        public void Update(KidEditModel UpdateData,string FileName)
         {
             Hashtable ht=new Hashtable();
-            string sql=$@"UPDATE Guestbooks SET [Name]=@Name,[Content]=@Content,[CreateTime]=@CreateTime WHERE [Id]=@Id; ";
-            ht.Add(@"@Id",new SQLParameter(model.Id,SqlDbType.Int));
-            ht.Add(@"@Name",new SQLParameter(model.Name,SqlDbType.NVarChar));
-            ht.Add(@"@Content",new SQLParameter(model.Content,SqlDbType.NVarChar));
-            ht.Add(@"@CreateTime",new SQLParameter(DateTime.Now,SqlDbType.DateTime2));
+            string sql=$@"UPDATE kid SET Name=@Name,image=@image WHERE kid_id=@kid_id; ";
+            ht.Add(@"@Name",new SQLParameter(UpdateData.name,SqlDbType.NVarChar));
+            ht.Add(@"@image",new SQLParameter(FileName,SqlDbType.NVarChar));
+            ht.Add(@"@kid_id",new SQLParameter(Guid.Parse(UpdateData.kid_id),SqlDbType.UniqueIdentifier));
             _MssqlConnect.Execute(sql,ht);
         }
         #endregion
+
+
+
         #region 回覆
         public void Reply(Guestbooks model)
         {

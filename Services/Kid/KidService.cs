@@ -25,13 +25,13 @@ namespace backend.Services
         public void Insert(KidInsertImportModel model)
         {
             var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
-            var folderPath = Path.Combine(this._appSettings.UploadPath, "ParentHead");
+            var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
             var path = Path.Combine(folderPath, FileName);
-            _kidDao.Insert(model);
+            _kidDao.Insert(model,FileName);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
@@ -74,11 +74,11 @@ namespace backend.Services
         }
         #endregion
         #region 單筆
-        public KidViewModel GetDataByKid_Id(KidOnlyModel Data)
+        public KidViewModel GetDataByKid_Id(string kid_id)
         {
             KidViewModel Result = new KidViewModel();
-            Kids OnlyKid = _kidDao.GetDataByKid_Id(Data);
-            
+            Kids OnlyKid = _kidDao.GetDataByKid_Id(kid_id);
+
             if (OnlyKid == null) return null;
             Result = new KidViewModel
                 {
@@ -105,21 +105,34 @@ namespace backend.Services
         }
         #endregion
 
-
-
-
         #region 修改
-        public void Update(GuestbooksUpdateModel model)
+        public void Update(KidEditModel model)
         {
-            Guestbooks Data = new Guestbooks
+            var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+            var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
+            if (!Directory.Exists(folderPath))
             {
-                Id = Convert.ToInt32(model.Id),
-                Name = model.Name,
-                Content = model.Content
+                Directory.CreateDirectory(folderPath);
+            }
+            var path = Path.Combine(folderPath, FileName);
+            Kids Data = new Kids
+            {
+                name = model.name,
+                image = FileName,
             };
-            _kidDao.Update(Data);
+            _kidDao.Update(model,FileName);
+
+            //存到路徑裡面
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                model.image.CopyTo(stream);
+            }
         }
         #endregion
+
+
+
+
         #region 回覆
         public void Reply(GuestbooksReplyModel model)
         {

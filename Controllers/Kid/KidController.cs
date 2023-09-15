@@ -58,7 +58,7 @@ namespace backend.Controllers
         {
             try
             {
-                KidViewModel Result = _service.GetDataByKid_Id(Data);
+                KidViewModel Result = _service.GetDataByKid_Id(Data.kid_id);
                 return Ok(new ResultViewModel<KidViewModel>
                 {
                     isSuccess = false,
@@ -119,15 +119,15 @@ namespace backend.Controllers
 
 
 
-        /*#region 修改
+        #region 修改
         [HttpPut]
+        [Route("UpdateKid")]
         //名字 圖片
         public IActionResult Update([FromForm] KidEditModel model)
         {
             try
             {
-                _service.GetDataList(model.kid_id);
-                if (_service.GetDataList(model.Id) != null)
+                if (_service.GetDataByKid_Id(model.kid_id) != null)
                 {
                     _service.Update(model);
                     return Ok(new ResultViewModel<string>
@@ -157,7 +157,7 @@ namespace backend.Controllers
                 });
             }
         }
-        #endregion*/
+        #endregion
 
         //判斷圖片
         private bool IsImageFile(string fileExtension)
