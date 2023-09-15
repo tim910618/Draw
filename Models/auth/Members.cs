@@ -9,6 +9,7 @@ namespace backend.Models.auth_t
         public string email{get;set;}
         public string password{get;set;}
         public string authcode{get;set;}
+        public string image{get;set;}
         
         //虛擬的
         //public virtual List<accountRoleModel> accountRole { get; set; }

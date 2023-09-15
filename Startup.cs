@@ -66,6 +66,7 @@ namespace backend
       // Service
       services.AddScoped<Services.sampleService>();
       services.AddScoped<Services.GuestbooksService>();
+      services.AddScoped<Services.MailService>();
       services.AddScoped<Services.KidService>();
       services.AddScoped<Services.PaintingService>();
 
