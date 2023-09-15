@@ -40,7 +40,7 @@ namespace backend.Controllers.Ch09
                         return Ok(new ResultViewModel<string>
                         {
                             isSuccess = true,
-                            message = "註冊成功，請去收信以來驗證EMAIL",
+                            message = "註冊成功，請去收信來驗證",
                             Result = null,
                         });
                     }
@@ -76,12 +76,11 @@ namespace backend.Controllers.Ch09
         }
 
         [HttpGet("emailValidate")]
-        public IActionResult EmailValidate([FromQuery] EmailValidate Data)
+        public IActionResult EmailValidate([FromForm] EmailValidate Data)
         {
             try
             {
                 Members ValidateMember = _service.GetDataById(Data.email);
-                string ValidateStr = string.Empty;
                 if (ValidateMember != null)
                 {
                     if (ValidateMember.authcode == Data.authcode)
@@ -133,8 +132,8 @@ namespace backend.Controllers.Ch09
         {
             try
             {
-                Members member = _service.GetDataById(model.Email);
-                if (member.authcode == "0000000000")
+                Members ValidateMember = _service.GetDataById(model.Email);
+                if (string.IsNullOrWhiteSpace(ValidateMember.authcode))
                 {
                     AuthenticateResponse Result = _service.Authenticate(model);
                     if (Result == null)

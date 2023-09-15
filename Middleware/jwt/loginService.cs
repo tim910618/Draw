@@ -76,17 +76,13 @@ namespace backend.Middleware.jwt_t
 
             string filePath = @"Views/RegisterEmail.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            /*var validateUrl = new
+            var validateUrl = new
             {
                 name = Data.name,
                 AuthCode = Data.authcode
-            };*/
-
-            //有問題
-            string baseUrl = "http://127.0.0.1:5001"; // 替換為實際的網站基本 URL
-            string validateUrl = baseUrl + "/Parents/emailValidate?email=" + Data.email + "&AuthCode=" + Data.authcode;
-
-            string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, validateUrl.ToString().Replace("%3F", "?"));
+            };
+            
+            string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, Data.authcode);
             _mailService.SendRegisterMail(mailBody, model.email);
         }
         public void EmailValidate(EmailValidate Data)

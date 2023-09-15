@@ -29,16 +29,16 @@ namespace backend.Services
                             "1", "2", "3", "4", "5", "6", "7", "8", "9"};
             string VaildateCode = string.Empty;
             Random rd = new Random();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
                 VaildateCode += Code[rd.Next(Code.Count())];
             }
             return VaildateCode;
         }
-        public string GetRegisterMailBody(string TempString, string UserName, string ValidateUrl)
+        public string GetRegisterMailBody(string TempString, string UserName, string authcode)
         {
             TempString = TempString.Replace("{{UserName}}", UserName);
-            TempString = TempString.Replace("{{ValidateUrl}}", ValidateUrl);
+            TempString = TempString.Replace("{{authcode}}", authcode);
             return TempString;
         }
         public void SendRegisterMail(string MailBody, string ToEmail)
