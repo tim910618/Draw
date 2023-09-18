@@ -46,7 +46,7 @@ namespace backend.Controllers.Ch09
                     }
                     else
                     {
-                        return BadRequest(new ResultViewModel<GuestbooksViewModel>
+                        return BadRequest(new ResultViewModel<string>
                         {
                             isSuccess = false,
                             message = "檔案型態錯誤",

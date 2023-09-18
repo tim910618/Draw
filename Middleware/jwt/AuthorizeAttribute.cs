@@ -14,7 +14,7 @@ namespace backend.Middleware.jwt
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (Members)context.HttpContext.Items["User"];
+            var user = (Members)context.HttpContext.Items["email"];
             if (user == null)
             {
                 // not logged in

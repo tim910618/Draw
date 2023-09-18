@@ -76,11 +76,11 @@ namespace backend.Middleware.jwt_t
 
             string filePath = @"Views/RegisterEmail.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            var validateUrl = new
-            {
-                name = Data.name,
-                AuthCode = Data.authcode
-            };
+            // var validateUrl = new
+            // {
+            //     name = Data.name,
+            //     AuthCode = Data.authcode
+            // };
             
             string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, Data.authcode);
             _mailService.SendRegisterMail(mailBody, model.email);
@@ -190,11 +190,11 @@ namespace backend.Middleware.jwt_t
 
             string filePath = @"Views/ForgetPassword.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            var validateUrl = new
-            {
-                name = members.name,
-                password = password,
-            };
+            // var validateUrl = new
+            // {
+            //     name = members.name,
+            //     password = password,
+            // };
             string mailBody = _mailService.GetForgetPasswordMailBody(TempString, members.name, password);
             _mailService.SendForgetPasswordMail(mailBody, Data.email);
         }
