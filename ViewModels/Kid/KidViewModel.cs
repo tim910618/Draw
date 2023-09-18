@@ -9,6 +9,7 @@ namespace backend.ViewModels
         public string birth{get;set;}
         public bool gender{get;set;}
         public string image{get;set;}
+        
         public string? age_0004{get;set;}
         public string? age_0006{get;set;}
         public string? age_0009{get;set;}
@@ -22,5 +23,7 @@ namespace backend.ViewModels
         public string? age_0400{get;set;}
         public string? age_0500{get;set;}
         public string? age_0600{get;set;}
+
+        public string age{get;set;}
     }
 }

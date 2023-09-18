@@ -90,7 +90,7 @@ namespace backend.Middleware
                             else
                             {
                                 // 驗證使用者是否存在
-                                if (!UserChecked(PayLoad["account"].ToString(), userService))
+                                if (!UserChecked(PayLoad["email"].ToString(), userService))
                                 {
                                     await BadResponse(Response);
                                 }

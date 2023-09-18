@@ -51,7 +51,7 @@ namespace backend.Controllers
                     if (IsImageFile(fileExtension))
                     {
                         _service.Insert(model);
-                        return Ok(new ResultViewModel<GuestbooksViewModel>
+                        return Ok(new ResultViewModel<string>
                         {
                             isSuccess = false,
                             message = "新增成功",
@@ -60,7 +60,7 @@ namespace backend.Controllers
                     }
                     else
                     {
-                        return BadRequest(new ResultViewModel<GuestbooksViewModel>
+                        return BadRequest(new ResultViewModel<string>
                         {
                             isSuccess = false,
                             message = "檔案型態錯誤",
@@ -70,7 +70,7 @@ namespace backend.Controllers
                 }
                 else
                 {
-                    return BadRequest(new ResultViewModel<GuestbooksViewModel>
+                    return BadRequest(new ResultViewModel<string>
                         {
                             isSuccess = false,
                             message = "權限不足",
@@ -80,7 +80,7 @@ namespace backend.Controllers
             }
             catch (Exception e)
             {
-                return NotFound(new ResultViewModel<GuestbooksViewModel>
+                return NotFound(new ResultViewModel<string>
                 {
                     isSuccess = false,
                     message = e.Message.ToString(),

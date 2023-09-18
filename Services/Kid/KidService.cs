@@ -79,6 +79,9 @@ namespace backend.Services
             KidViewModel Result = new KidViewModel();
             Kids OnlyKid = _kidDao.GetDataByKid_Id(kid_id);
 
+            //age 幾年幾個月
+            
+
             if (OnlyKid == null) return null;
             Result = new KidViewModel
                 {

@@ -130,10 +130,10 @@ namespace backend
       app.UseRouting();
 
 
-      // app.UseAuthorization();
+       app.UseAuthorization();
 
       /* 中介軟體 Middleware 設定 */
-      // app.UseMiddleware<jwtMiddleware>();
+       app.UseMiddleware<jwtMiddleware>();
 
       app.UseEndpoints(endpoints =>
       {
