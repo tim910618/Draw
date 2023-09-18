@@ -45,7 +45,7 @@ namespace backend.Middleware.jwt_t
             ht.Add(@"@email", new SQLParameter(model.email, SqlDbType.NVarChar));
             ht.Add(@"@password", new SQLParameter(model.password, SqlDbType.NVarChar));
             ht.Add(@"@authcode", new SQLParameter(model.authcode, SqlDbType.NChar));
-            ht.Add(@"@image", new SQLParameter(model.password, SqlDbType.NVarChar));
+            ht.Add(@"@image", new SQLParameter(model.image, SqlDbType.NVarChar));
             _messqlConnect.Execute(sql, ht);
         }
 
