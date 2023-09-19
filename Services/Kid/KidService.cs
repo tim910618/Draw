@@ -31,7 +31,7 @@ namespace backend.Services
                 Directory.CreateDirectory(folderPath);
             }
             var path = Path.Combine(folderPath, FileName);
-            _kidDao.Insert(model,FileName);
+            _kidDao.Insert(model, FileName);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
@@ -68,6 +68,7 @@ namespace backend.Services
                     age_0400 = item.age_0400.ToString(),
                     age_0500 = item.age_0500.ToString(),
                     age_0600 = item.age_0600.ToString(),
+
                 });
             }
             return Result;
@@ -80,30 +81,43 @@ namespace backend.Services
             Kids OnlyKid = _kidDao.GetDataByKid_Id(kid_id);
 
             //age 幾年幾個月
-            
+            DateTime currentDate = DateTime.Now;
+            int years = currentDate.Year - OnlyKid.birth.Year;
+            int months = currentDate.Month - OnlyKid.birth.Month;
+
+            if (currentDate.Day < OnlyKid.birth.Day)
+            {
+                months--;
+            }
+            if (months < 0)
+            {
+                years--;
+                months += 12;
+            }
 
             if (OnlyKid == null) return null;
             Result = new KidViewModel
-                {
-                    kid_id = OnlyKid.kid_id.ToString(),
-                    name = OnlyKid.name,
-                    birth = OnlyKid.birth.ToString(),
-                    gender = OnlyKid.gender,
-                    image = OnlyKid.image,
-                    age_0004 = OnlyKid.age_0004.ToString(),
-                    age_0006 = OnlyKid.age_0006.ToString(),
-                    age_0009 = OnlyKid.age_0009.ToString(),
-                    age_0100 = OnlyKid.age_0100.ToString(),
-                    age_0103 = OnlyKid.age_0103.ToString(),
-                    age_0106 = OnlyKid.age_0106.ToString(),
-                    age_0200 = OnlyKid.age_0200.ToString(),
-                    age_0206 = OnlyKid.age_0206.ToString(),
-                    age_0300 = OnlyKid.age_0300.ToString(),
-                    age_0306 = OnlyKid.age_0306.ToString(),
-                    age_0400 = OnlyKid.age_0400.ToString(),
-                    age_0500 = OnlyKid.age_0500.ToString(),
-                    age_0600 = OnlyKid.age_0600.ToString(),
-                };
+            {
+                kid_id = OnlyKid.kid_id.ToString(),
+                name = OnlyKid.name,
+                birth = OnlyKid.birth.ToString(),
+                gender = OnlyKid.gender,
+                image = OnlyKid.image,
+                age_0004 = OnlyKid.age_0004.ToString(),
+                age_0006 = OnlyKid.age_0006.ToString(),
+                age_0009 = OnlyKid.age_0009.ToString(),
+                age_0100 = OnlyKid.age_0100.ToString(),
+                age_0103 = OnlyKid.age_0103.ToString(),
+                age_0106 = OnlyKid.age_0106.ToString(),
+                age_0200 = OnlyKid.age_0200.ToString(),
+                age_0206 = OnlyKid.age_0206.ToString(),
+                age_0300 = OnlyKid.age_0300.ToString(),
+                age_0306 = OnlyKid.age_0306.ToString(),
+                age_0400 = OnlyKid.age_0400.ToString(),
+                age_0500 = OnlyKid.age_0500.ToString(),
+                age_0600 = OnlyKid.age_0600.ToString(),
+                age = years + "年" + months + "月",
+            };
             return Result;
         }
         #endregion
@@ -123,7 +137,7 @@ namespace backend.Services
                 name = model.name,
                 image = FileName,
             };
-            _kidDao.Update(model,FileName);
+            _kidDao.Update(model, FileName);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))

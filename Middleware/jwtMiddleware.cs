@@ -97,7 +97,7 @@ namespace backend.Middleware
                                 else
                                 {
                                     //驗證角色權限
-                                    await BadResponse(Response);
+                                    //await BadResponse(Response);
                                 }
                             }
                         }
@@ -140,7 +140,7 @@ namespace backend.Middleware
         {
             // 路由不須驗證權限
             //判斷Request路徑是不是登入，如果是登入，就執行Token驗證
-            if ((Path == "/api/auth/login" && URLMethod == "POST"))
+            if ((Path == "/api/Parents/login" && URLMethod == "POST"))
                 return false;
             if ((Path.ToLower().Contains("/api/Image".ToLower()) && URLMethod == "GET"))
                 return false;
@@ -160,10 +160,10 @@ namespace backend.Middleware
             return false;
         }
 
-        public Boolean UserChecked(string UserId, IUserService_T userService)
+        public Boolean UserChecked(string email, IUserService_T userService)
         {
             //判斷該帳號是否存在
-            var Users = userService.GetDataById(UserId);
+            var Users = userService.GetDataById(email);
             if (Users == null)
                 return false;
 
