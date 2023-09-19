@@ -18,7 +18,7 @@ namespace backend.ImportModels.Register
         [Required]
         [StringLengthAttribute(50,ErrorMessage ="不可超過30個字")]
         public string password{get;set;}
-        [Required]
+        //[Required]
         public IFormFile image{get;set;} 
     }
 }
