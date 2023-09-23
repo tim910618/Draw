@@ -24,6 +24,10 @@ namespace backend.Services
         #region 新增
         public void Insert(KidInsertImportModel model)
         {
+            //階段 
+            string age_stage = Distinguish_age.Distinguish(model.birth);
+
+            //圖片
             var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
             var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
             if (!Directory.Exists(folderPath))
@@ -31,7 +35,8 @@ namespace backend.Services
                 Directory.CreateDirectory(folderPath);
             }
             var path = Path.Combine(folderPath, FileName);
-            _kidDao.Insert(model, FileName);
+
+            _kidDao.Insert(model, FileName,age_stage);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
@@ -46,8 +51,23 @@ namespace backend.Services
         {
             List<KidViewModel> Result = new List<KidViewModel>();
             List<Kids> DataList = _kidDao.GetDataList();
+
             foreach (var item in DataList)
             {
+                //age 幾年幾個月
+                DateTime currentDate = DateTime.Now;
+                int years = currentDate.Year - item.birth.Year;
+                int months = currentDate.Month - item.birth.Month;
+                if (currentDate.Day < item.birth.Day)
+                {
+                    months--;
+                }
+                if (months < 0)
+                {
+                    years--;
+                    months += 12;
+                }
+
                 Result.Add(new KidViewModel
                 {
                     kid_id = item.kid_id.ToString(),
@@ -68,7 +88,7 @@ namespace backend.Services
                     age_0400 = item.age_0400.ToString(),
                     age_0500 = item.age_0500.ToString(),
                     age_0600 = item.age_0600.ToString(),
-
+                    age = years + "年" + months + "月",
                 });
             }
             return Result;
@@ -84,7 +104,6 @@ namespace backend.Services
             DateTime currentDate = DateTime.Now;
             int years = currentDate.Year - OnlyKid.birth.Year;
             int months = currentDate.Month - OnlyKid.birth.Month;
-
             if (currentDate.Day < OnlyKid.birth.Day)
             {
                 months--;

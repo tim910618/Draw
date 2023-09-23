@@ -73,14 +73,8 @@ namespace backend.Middleware.jwt_t
             {
                 model.image.CopyTo(stream);
             }
-
             string filePath = @"Views/RegisterEmail.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            // var validateUrl = new
-            // {
-            //     name = Data.name,
-            //     AuthCode = Data.authcode
-            // };
             
             string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, Data.authcode);
             _mailService.SendRegisterMail(mailBody, model.email);
