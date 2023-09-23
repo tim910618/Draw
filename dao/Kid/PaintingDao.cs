@@ -74,11 +74,10 @@ namespace backend.dao
             StringBuilder sqlBuilder = new StringBuilder("SELECT ");
             StringBuilder valuesBuilder = new StringBuilder(" FROM kid WHERE email=@email and kid_id=@kid_id and ");
             string sql = sqlBuilder.ToString() + age_stage + valuesBuilder.ToString() + age_stage + " IN (1, 2)";
-            
+
             //string sql = @"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
             ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
             ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(kid_id), SqlDbType.UniqueIdentifier));
-            //ht.Add(@"@age_stage", new SQLParameter(1, SqlDbType.Int));
             Result = _MssqlConnect.GetDataList<Kids>(sql, ht).FirstOrDefault();
             return Result;
         }

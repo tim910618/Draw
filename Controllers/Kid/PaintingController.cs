@@ -33,7 +33,7 @@ namespace backend.Controllers
         {
             try
             {
-                bool checkScale = _service.GetDataById(model);
+                bool checkScale = _service.GetDataById(model); 
                 if (checkScale)
                 {
                     return Ok(new ResultViewModel<string>
