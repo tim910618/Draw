@@ -24,8 +24,6 @@ namespace backend.Services
         #region 新增
         public void Insert(KidInsertImportModel model)
         {
-            //階段 
-            string age_stage = Distinguish_age.Distinguish(model.birth);
 
             //圖片
             var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
@@ -36,7 +34,7 @@ namespace backend.Services
             }
             var path = Path.Combine(folderPath, FileName);
 
-            _kidDao.Insert(model, FileName,age_stage);
+            _kidDao.Insert(model, FileName);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))

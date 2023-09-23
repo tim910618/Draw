@@ -10,6 +10,7 @@ using System.Linq;
 using System;
 using backend.ImportModels;
 using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace backend.dao
 {
@@ -50,7 +51,36 @@ namespace backend.dao
             ht.Add(@"@picture", new SQLParameter(FileName, SqlDbType.NVarChar));
             ht.Add(@"@result", new SQLParameter(model.result, SqlDbType.NVarChar));
             ht.Add(@"@create_time", new SQLParameter(date, SqlDbType.DateTime2));
-            _MssqlConnect.Execute(sql,ht);
+            _MssqlConnect.Execute(sql, ht);
+        }
+        #endregion
+        #region 搜尋
+        public Kids GetDataById(string kid_id)
+        {
+            Hashtable ht = new Hashtable();
+            Kids Result = new Kids();
+            string sql = @"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
+            ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
+            ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(kid_id), SqlDbType.UniqueIdentifier));
+            Result = _MssqlConnect.GetDataList<Kids>(sql, ht).FirstOrDefault();
+            return Result;
+        }
+        #endregion
+        #region 檢查
+        public Kids kid_check(string kid_id, string age_stage)
+        {
+            Hashtable ht = new Hashtable();
+            Kids Result = new Kids();
+            StringBuilder sqlBuilder = new StringBuilder("SELECT ");
+            StringBuilder valuesBuilder = new StringBuilder(" FROM kid WHERE email=@email and kid_id=@kid_id and ");
+            string sql = sqlBuilder.ToString() + age_stage + valuesBuilder.ToString() + age_stage + " IN (1, 2)";
+            
+            //string sql = @"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
+            ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
+            ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(kid_id), SqlDbType.UniqueIdentifier));
+            //ht.Add(@"@age_stage", new SQLParameter(1, SqlDbType.Int));
+            Result = _MssqlConnect.GetDataList<Kids>(sql, ht).FirstOrDefault();
+            return Result;
         }
         #endregion
     }

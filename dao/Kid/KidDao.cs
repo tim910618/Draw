@@ -39,24 +39,16 @@ namespace backend.dao
         }
 
         #region 新增
-        public void Insert(KidInsertImportModel model, string FileName, string age_stage)
+        public void Insert(KidInsertImportModel model, string FileName)
         {
             Hashtable ht = new Hashtable();
-            StringBuilder sqlBuilder = new StringBuilder("INSERT INTO kid (");
-            StringBuilder valuesBuilder = new StringBuilder(") VALUES (");
-            sqlBuilder.Append("email, kid_id, name, birth, gender, image,");
-            valuesBuilder.Append("@email, @kid_id, @name, @birth, @gender,@image, @age_stage");
-            
-            string sql = sqlBuilder.ToString() + age_stage + valuesBuilder.ToString() + ");";
-            //string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender,image) VALUES (@email,@kid_id,@name,@birth,@gender,@image); ";
-
+            string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender,image) VALUES (@email,@kid_id,@name,@birth,@gender,@image); ";
             ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
             ht.Add(@"@kid_id", new SQLParameter(Guid.NewGuid(), SqlDbType.UniqueIdentifier));
             ht.Add(@"@name", new SQLParameter(model.name, SqlDbType.NVarChar));
             ht.Add(@"@birth", new SQLParameter(model.birth, SqlDbType.DateTime2));
             ht.Add(@"@gender", new SQLParameter(model.gender, SqlDbType.Bit));
             ht.Add(@"@image", new SQLParameter(FileName, SqlDbType.NVarChar));
-            ht.Add(@"@age_stage", new SQLParameter(0, SqlDbType.Int));
             _MssqlConnect.Execute(sql, ht);
         }
         #endregion

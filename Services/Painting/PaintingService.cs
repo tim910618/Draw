@@ -46,5 +46,18 @@ namespace backend.Services
             }
         }
         #endregion
+        #region 搜尋
+        public bool GetDataById(PaintingCheckScaleModel model)
+        {
+            Kids kid = _PaintingDao.GetDataById(model.kid_id);
+            string age_stage = Distinguish_age.Distinguish(kid.birth.ToString());
+            Kids kid_check = _PaintingDao.kid_check(model.kid_id,age_stage);
+            if(kid_check==null)
+            {
+                return false;
+            }
+            else return true;
+        }
+        #endregion
     }
 }
