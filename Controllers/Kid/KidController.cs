@@ -35,7 +35,7 @@ namespace backend.Controllers
                 List<KidViewModel> Result = _service.GetDataList();
                 return Ok(new ResultViewModel<List<KidViewModel>>
                 {
-                    isSuccess = false,
+                    isSuccess = true,
                     message = string.Empty,
                     Result = Result
                 });
@@ -61,7 +61,7 @@ namespace backend.Controllers
                 KidViewModel Result = _service.GetDataByKid_Id(Data.kid_id);
                 return Ok(new ResultViewModel<KidViewModel>
                 {
-                    isSuccess = false,
+                    isSuccess = true,
                     message = string.Empty,
                     Result = Result
                 });
@@ -128,7 +128,7 @@ namespace backend.Controllers
                     _service.Update(model);
                     return Ok(new ResultViewModel<string>
                     {
-                        isSuccess = false,
+                        isSuccess = true,
                         message = "修改成功",
                         Result = null
                     });

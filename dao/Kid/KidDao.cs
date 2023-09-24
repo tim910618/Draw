@@ -89,28 +89,5 @@ namespace backend.dao
             _MssqlConnect.Execute(sql, ht);
         }
         #endregion
-
-
-
-        #region 回覆
-        public void Reply(Guestbooks model)
-        {
-            Hashtable ht = new Hashtable();
-            string sql = $@"UPDATE Guestbooks SET [Reply]=@Reply,[ReplyTime]=@ReplyTime WHERE [Id]=@Id; ";
-            ht.Add(@"@Id", new SQLParameter(model.Id, SqlDbType.Int));
-            ht.Add(@"@Reply", new SQLParameter(model.Reply, SqlDbType.NVarChar));
-            ht.Add(@"@ReplyTime", new SQLParameter(DateTime.Now, SqlDbType.DateTime2));
-            _MssqlConnect.Execute(sql, ht);
-        }
-        #endregion
-        #region 刪除
-        public void Delete(string Id)
-        {
-            Hashtable ht = new Hashtable();
-            string sql = $@"DELETE FROM [Guestbooks] WHERE Id=@Id; ";
-            ht.Add(@"@Id", new SQLParameter(Id, SqlDbType.Int));
-            _MssqlConnect.Execute(sql, ht);
-        }
-        #endregion
     }
 }

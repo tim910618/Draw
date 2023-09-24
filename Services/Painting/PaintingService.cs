@@ -17,8 +17,8 @@ namespace backend.Services
     {
         private readonly MssqlConnect _MssqlConnect;
         private readonly appSettings _appSettings;
-        private readonly PaintingDao _PaintingDao;
-        public PaintingService(IOptions<appSettings> appSettings, IHttpContextAccessor HttpContextAccessor,PaintingDao PaintingDao)
+        private readonly paintingDao _PaintingDao;
+        public PaintingService(IOptions<appSettings> appSettings, IHttpContextAccessor HttpContextAccessor,paintingDao PaintingDao)
         {
             this._appSettings = appSettings.Value;
             this._MssqlConnect = new MssqlConnect(_appSettings.db);
@@ -47,11 +47,11 @@ namespace backend.Services
         }
         #endregion
         #region 搜尋
-        public bool GetDataById(PaintingCheckScaleModel model)
+        public bool GetDataById(string kid_id)
         {
-            Kids kid = _PaintingDao.GetDataById(model.kid_id);
+            Kids kid = _PaintingDao.GetDataById(kid_id);
             string age_stage = Distinguish_age.Distinguish(kid.birth.ToString());
-            Kids kid_check = _PaintingDao.kid_check(model.kid_id,age_stage);
+            Kids kid_check = _PaintingDao.kid_check(kid_id,age_stage);
             if(kid_check==null)
             {
                 return false;

@@ -19,11 +19,11 @@ namespace backend.Controllers
     public class PaintingController : ControllerBase
     {
         private readonly ILogger<GuestbooksController> _logger;
-        private readonly PaintingService _service;
-        public PaintingController(ILogger<GuestbooksController> logger, PaintingService service)
+        private readonly PaintingService _paintingservice;
+        public PaintingController(ILogger<GuestbooksController> logger, PaintingService paintingservice)
         {
             this._logger = logger;
-            this._service = service;
+            this._paintingservice = paintingservice;
         }
 
         #region 判斷是否已填量表
@@ -33,13 +33,13 @@ namespace backend.Controllers
         {
             try
             {
-                bool checkScale = _service.GetDataById(model); 
+                bool checkScale = _paintingservice.GetDataById(model.kid_id); 
                 if (checkScale)
                 {
                     return Ok(new ResultViewModel<string>
                     {
                         isSuccess = true,
-                        message = "以填寫量表，可進行上傳圖片",
+                        message = "已填寫量表，可進行上傳圖片",
                         Result = null
                     });
                 }
@@ -74,10 +74,10 @@ namespace backend.Controllers
                 string fileExtension = Path.GetExtension(model.picture.FileName);
                 if (IsImageFile(fileExtension))
                 {
-                    _service.Insert(model);
+                    _paintingservice.Insert(model);
                     return Ok(new ResultViewModel<string>
                     {
-                        isSuccess = false,
+                        isSuccess = true,
                         message = "新增成功",
                         Result = null
                     });

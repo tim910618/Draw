@@ -163,26 +163,5 @@ namespace backend.Services
             }
         }
         #endregion
-
-
-
-
-        #region 回覆
-        public void Reply(GuestbooksReplyModel model)
-        {
-            Guestbooks Data = new Guestbooks
-            {
-                Id = Convert.ToInt32(model.Id),
-                Reply = model.Reply,
-            };
-            _kidDao.Reply(Data);
-        }
-        #endregion
-        #region 刪除
-        public void Delete(string Id)
-        {
-            _kidDao.Delete(Id);
-        }
-        #endregion
     }
 }

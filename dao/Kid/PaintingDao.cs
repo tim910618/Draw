@@ -14,13 +14,13 @@ using System.Text;
 
 namespace backend.dao
 {
-    public class PaintingDao
+    public class paintingDao
     {
         private readonly appSettings _appSettings;
         private readonly MssqlConnect _MssqlConnect;
         private readonly IHttpContextAccessor _HttpContextAccessor;
         private string _AccountNumber;
-        public PaintingDao(IOptions<appSettings> appSettings, IHttpContextAccessor HttpContextAccessor)
+        public paintingDao(IOptions<appSettings> appSettings, IHttpContextAccessor HttpContextAccessor)
         {
             this._appSettings = appSettings.Value;
             this._MssqlConnect = new MssqlConnect(_appSettings.db);
@@ -71,9 +71,9 @@ namespace backend.dao
         {
             Hashtable ht = new Hashtable();
             Kids Result = new Kids();
-            StringBuilder sqlBuilder = new StringBuilder("SELECT ");
-            StringBuilder valuesBuilder = new StringBuilder(" FROM kid WHERE email=@email and kid_id=@kid_id and ");
-            string sql = sqlBuilder.ToString() + age_stage + valuesBuilder.ToString() + age_stage + " IN (1, 2)";
+            StringBuilder selectBuilder = new StringBuilder("SELECT ");
+            StringBuilder fromBuilder = new StringBuilder(" FROM kid WHERE email=@email and kid_id=@kid_id and ");
+            string sql = selectBuilder.ToString() + age_stage + fromBuilder.ToString() + age_stage + " IN (1, 2)";
 
             //string sql = @"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
             ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));

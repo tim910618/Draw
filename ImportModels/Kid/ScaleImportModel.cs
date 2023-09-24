@@ -8,7 +8,7 @@ namespace backend.ImportModels
     {
         public string kid_id { get; set; }
         //錯的問題
-        public string question { get; set; }
+        public string scale_trouble { get; set; }
         //危險因子項目 EX:1,3
         public string disease { get; set; }
         //危險因子項目其他
