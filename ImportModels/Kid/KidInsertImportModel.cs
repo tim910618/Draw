@@ -13,7 +13,7 @@ namespace backend.ImportModels
         public string birth { get; set; }
         [Required]
         public bool gender { get; set; }
-        [Required]
+        //[Required]
         public IFormFile image { get; set; }
     }
 }
