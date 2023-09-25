@@ -74,5 +74,12 @@ namespace backend.dao
             _MssqlConnect.Execute(sql, ht);
         }
         #endregion
+
+        #region 查詢
+        public void GetScale(GetScaleImportModel model)
+        {
+            
+        }
+        #endregion
     }
 }

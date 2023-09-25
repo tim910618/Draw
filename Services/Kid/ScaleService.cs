@@ -41,6 +41,11 @@ namespace backend.Services
             }
         }
         #endregion
-
+        #region 查詢Scale
+        public void GetScale(GetScaleImportModel model)
+        {
+            _scaleDao.GetScale(model);
+        }
+        #endregion
     }
 }

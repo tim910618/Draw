@@ -34,11 +34,11 @@ namespace backend.Middleware
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             await attachUserToContext(context, userService, token);
-            if(context.Response.StatusCode != 401)
+            if (context.Response.StatusCode != 401)
                 await _next(context);
         }
 
-        private async Task attachUserToContext(HttpContext context, IUserService_T userService,string token)
+        private async Task attachUserToContext(HttpContext context, IUserService_T userService, string token)
         {
 
             //設定HttpRequest與HttpResponse
@@ -141,6 +141,8 @@ namespace backend.Middleware
             // 路由不須驗證權限
             //判斷Request路徑是不是登入，如果是登入，就執行Token驗證
             if ((Path == "/api/Parents/login" && URLMethod == "POST"))
+                return false;
+            if ((Path == "/api/Parents/ForgetPassword" && URLMethod == "POST"))
                 return false;
             if ((Path.ToLower().Contains("/api/Image".ToLower()) && URLMethod == "GET"))
                 return false;

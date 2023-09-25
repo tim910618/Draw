@@ -69,10 +69,11 @@ namespace backend.Controllers
         #region 量表紀錄
         [HttpGet]
         [Route("Scale")]
-        public IActionResult Scale()
+        public IActionResult Scale(GetScaleImportModel model)
         {
             try
             {
+                _scaleservice.GetScale(model);
                 return Ok(new ResultViewModel<string>
                 {
                     isSuccess = true,
