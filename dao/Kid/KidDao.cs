@@ -39,16 +39,15 @@ namespace backend.dao
         }
 
         #region 新增
-        public void Insert(KidInsertImportModel model, string FileName)
+        public void Insert(KidInsertImportModel model)
         {
             Hashtable ht = new Hashtable();
-            string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender,image) VALUES (@email,@kid_id,@name,@birth,@gender,@image); ";
+            string sql=$@"INSERT INTO kid(email,kid_id,name,birth,gender) VALUES (@email,@kid_id,@name,@birth,@gender); ";
             ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
             ht.Add(@"@kid_id", new SQLParameter(Guid.NewGuid(), SqlDbType.UniqueIdentifier));
             ht.Add(@"@name", new SQLParameter(model.name, SqlDbType.NVarChar));
             ht.Add(@"@birth", new SQLParameter(model.birth, SqlDbType.DateTime2));
             ht.Add(@"@gender", new SQLParameter(model.gender, SqlDbType.Bit));
-            ht.Add(@"@image", new SQLParameter(FileName, SqlDbType.NVarChar));
             _MssqlConnect.Execute(sql, ht);
         }
         #endregion

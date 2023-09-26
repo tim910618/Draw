@@ -83,23 +83,12 @@ namespace backend.Controllers
         {
             try
             {
-                string fileExtension = Path.GetExtension(model.image.FileName);
-                if (IsImageFile(fileExtension))
                 {
                     _service.Insert(model);
                     return Ok(new ResultViewModel<string>
                     {
                         isSuccess = true,
                         message = "新增成功",
-                        Result = null,
-                    });
-                }
-                else
-                {
-                    return BadRequest(new ResultViewModel<string>
-                    {
-                        isSuccess = false,
-                        message = "檔案格式錯誤",
                         Result = null,
                     });
                 }

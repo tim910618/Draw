@@ -14,6 +14,6 @@ namespace backend.ImportModels
         [Required]
         public bool gender { get; set; }
         //[Required]
-        public IFormFile image { get; set; }
+        //public IFormFile image { get; set; }
     }
 }

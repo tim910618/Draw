@@ -39,7 +39,7 @@ namespace backend.dao
         }
 
         #region 修改
-        public void Update_stage(ScaleImportModel model,string age_stage,int log)
+        public void Update_stage(ScaleImportModel model, string age_stage, int log)
         {
             Hashtable ht = new Hashtable();
             StringBuilder updateBuilder = new StringBuilder("UPDATE kid SET ");
@@ -55,7 +55,7 @@ namespace backend.dao
         #endregion
 
         #region 新增
-        public void Insert(ScaleImportModel model,string age_stage)
+        public void Insert(ScaleImportModel model, string age_stage)
         {
             Hashtable ht = new Hashtable();
             string date = common.DateFormat_full(DateTime.Now);
@@ -78,7 +78,13 @@ namespace backend.dao
         #region 查詢
         public void GetScale(GetScaleImportModel model)
         {
-            
+            Hashtable ht = new Hashtable();
+            Kids Result = new Kids();
+            string sql = @"SELECT * FROM kid WHERE email=@email and kid_id=@kid_id";
+            ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
+            ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(kid_id), SqlDbType.UniqueIdentifier));
+            Result = _MssqlConnect.GetDataList<Kids>(sql, ht).FirstOrDefault();
+            return Result;
         }
         #endregion
     }
