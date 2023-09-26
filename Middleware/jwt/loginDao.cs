@@ -39,13 +39,13 @@ namespace backend.Middleware.jwt_t
         public void Register(Members model)
         {
             Hashtable ht = new Hashtable();
-            string sql = $@"INSERT INTO members (name,phone,email,password,authcode,image) VALUES (@name,@phone,@email,@password,@authcode,@image); ";
+            string sql = $@"INSERT INTO members (name,phone,email,password,authcode) VALUES (@name,@phone,@email,@password,@authcode); ";
             ht.Add(@"@name", new SQLParameter(model.name, SqlDbType.NVarChar));
             ht.Add(@"@phone", new SQLParameter(model.phone, SqlDbType.NVarChar));
             ht.Add(@"@email", new SQLParameter(model.email, SqlDbType.NVarChar));
             ht.Add(@"@password", new SQLParameter(model.password, SqlDbType.NVarChar));
             ht.Add(@"@authcode", new SQLParameter(model.authcode, SqlDbType.NChar));
-            ht.Add(@"@image", new SQLParameter(model.image, SqlDbType.NVarChar));
+            //ht.Add(@"@image", new SQLParameter(model.image, SqlDbType.NVarChar));
             _messqlConnect.Execute(sql, ht);
         }
 

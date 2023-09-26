@@ -49,14 +49,6 @@ namespace backend.Middleware.jwt_t
         public void Register(RegisterImportModel model)
         {
             sha256Hash sha256 = new sha256Hash();
-            var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
-            var folderPath = Path.Combine(this._appSettings.UploadPath, "ParentHead");
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-            var path = Path.Combine(folderPath, FileName);
-
             Members Data = new Members
             {
                 name = model.name,
@@ -64,18 +56,11 @@ namespace backend.Middleware.jwt_t
                 email = model.email,
                 password = sha256.getSha256(model.password, this._appSettings.hash_key),
                 authcode = _mailService.GetValidateCode(),
-                image = FileName,
             };
             _dao.Register(Data);
 
-            //存到路徑裡面
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                model.image.CopyTo(stream);
-            }
             string filePath = @"Views/RegisterEmail.html";
             string TempString = System.IO.File.ReadAllText(filePath);
-            
             string mailBody = _mailService.GetRegisterMailBody(TempString, Data.name, Data.authcode);
             _mailService.SendRegisterMail(mailBody, model.email);
         }
