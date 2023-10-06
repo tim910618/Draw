@@ -140,6 +140,10 @@ namespace backend.Middleware
         {
             // 路由不須驗證權限
             //判斷Request路徑是不是登入，如果是登入，就執行Token驗證
+            if ((Path == "/api/Parents/Regist" && URLMethod == "POST"))
+                return false;
+            if ((Path == "/api/Parents/emailValidate" && URLMethod == "POST"))
+                return false;    
             if ((Path == "/api/Parents/login" && URLMethod == "POST"))
                 return false;
             if ((Path == "/api/Parents/ForgetPassword" && URLMethod == "POST"))

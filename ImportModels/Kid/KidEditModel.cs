@@ -12,6 +12,6 @@ namespace backend.ImportModels
         [StringLengthAttribute(50, ErrorMessage = "不可超過50個字")]
         public string name { get; set; }
         //[Required]
-        public IFormFile image { get; set; }
+        public IFormFile? image { get; set; }
     }
 }

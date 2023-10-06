@@ -24,7 +24,31 @@ namespace backend.Services
         #region 新增
         public void Insert(KidInsertImportModel model)
         {
-            _kidDao.Insert(model);
+            var FileName = string.Empty;
+            if (model.image != null && model.image.FileName != null)
+            {
+                FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+            }
+            else
+            {
+                FileName = "default.jpg";
+            }
+            var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+            var path = Path.Combine(folderPath, FileName);
+
+            _kidDao.Insert(model, FileName);
+            //存到路徑裡面
+            if (model.image != null && model.image.FileName != null)
+            {
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    model.image.CopyTo(stream);
+                }
+            }
         }
         #endregion
 
@@ -54,7 +78,7 @@ namespace backend.Services
                 {
                     kid_id = item.kid_id.ToString(),
                     name = item.name,
-                    birth = item.birth.ToString(),
+                    birth = item.birth.ToString("yyyy-MM-dd"),
                     gender = item.gender,
                     image = item.image,
                     age = years + "年" + months + "月",
@@ -68,6 +92,7 @@ namespace backend.Services
         {
             KidViewModel Result = new KidViewModel();
             Kids OnlyKid = _kidDao.GetDataByKid_Id(kid_id);
+            if (OnlyKid == null) return null;
 
             //age 幾年幾個月
             DateTime currentDate = DateTime.Now;
@@ -82,13 +107,12 @@ namespace backend.Services
                 years--;
                 months += 12;
             }
-
-            if (OnlyKid == null) return null;
+            
             Result = new KidViewModel
             {
                 kid_id = OnlyKid.kid_id.ToString(),
                 name = OnlyKid.name,
-                birth = OnlyKid.birth.ToString(),
+                birth = OnlyKid.birth.ToString("yyyy-MM-dd"),
                 gender = OnlyKid.gender,
                 image = OnlyKid.image,
                 age = years + "年" + months + "月",
@@ -100,24 +124,31 @@ namespace backend.Services
         #region 修改
         public void Update(KidEditModel model)
         {
-            var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+            var FileName = string.Empty;
+            if (model.image != null && model.image.FileName != null)
+            {
+                FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+            }
+            else
+            {
+                FileName = "default.jpg";
+            }
             var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
             var path = Path.Combine(folderPath, FileName);
-            Kids Data = new Kids
-            {
-                name = model.name,
-                image = FileName,
-            };
+            
             _kidDao.Update(model, FileName);
 
             //存到路徑裡面
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (model.image != null && model.image.FileName != null)
             {
-                model.image.CopyTo(stream);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    model.image.CopyTo(stream);
+                }
             }
         }
         #endregion

@@ -9,6 +9,6 @@ namespace backend.ImportModels.Register
         public string name{get;set;}
         public string phone{get;set;}
         public string password{get;set;}
-        public IFormFile image{get;set;}
+        public IFormFile? image{get;set;}
     }
 }

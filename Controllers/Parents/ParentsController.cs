@@ -63,7 +63,7 @@ namespace backend.Controllers.Ch09
             }
         }
 
-        [HttpGet("emailValidate")]
+        [HttpPost("emailValidate")]
         public IActionResult EmailValidate([FromForm] EmailValidate Data)
         {
             try

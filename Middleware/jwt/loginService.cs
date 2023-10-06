@@ -134,7 +134,16 @@ namespace backend.Middleware.jwt_t
         public void Edit(EditModel EditData)
         {
             sha256Hash sha256 = new sha256Hash();
-            var FileName = Guid.NewGuid().ToString() + Path.GetExtension(EditData.image.FileName);
+            var FileName = string.Empty;
+            if (EditData.image != null && EditData.image.FileName != null)
+            {
+                FileName = Guid.NewGuid().ToString() + Path.GetExtension(EditData.image.FileName);
+            }
+            else
+            {
+                FileName = "default.jpg";
+            }
+
             var folderPath = Path.Combine(this._appSettings.UploadPath, "ParentHead");
             if (!Directory.Exists(folderPath))
             {
@@ -152,9 +161,12 @@ namespace backend.Middleware.jwt_t
             _dao.Edit(Data);
 
             //存到路徑裡面
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (EditData.image != null && EditData.image.FileName != null)
             {
-                EditData.image.CopyTo(stream);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    EditData.image.CopyTo(stream);
+                }
             }
         }
 
