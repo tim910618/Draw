@@ -35,6 +35,7 @@ namespace backend.Services
             }
             return VaildateCode;
         }
+        #region 註冊
         public string GetRegisterMailBody(string TempString, string UserName, string authcode)
         {
             TempString = TempString.Replace("{{UserName}}", UserName);
@@ -55,6 +56,8 @@ namespace backend.Services
             mail.IsBodyHtml = true;
             SmtpServer.Send(mail);
         }
+        #endregion
+        #region 忘記密碼
         public string GetForgetPasswordMailBody(string TempString, string UserName, string password)
         {
             TempString = TempString.Replace("{{UserName}}", UserName);
@@ -70,11 +73,11 @@ namespace backend.Services
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(gmail_mail);
             mail.To.Add(ToEmail);
-            mail.Subject = " 繪心醫效 註冊確認信 ";
+            mail.Subject = " 繪心醫效 忘記密碼信 ";
             mail.Body = MailBody;
             mail.IsBodyHtml = true;
             SmtpServer.Send(mail);
         }
-
+        #endregion
     }
 }

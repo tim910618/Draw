@@ -81,8 +81,8 @@ namespace backend.dao
         public void Update(KidEditModel UpdateData, string FileName)
         {
             Hashtable ht = new Hashtable();
-            string sql = $@"UPDATE kid SET Name=@Name,image=@image WHERE kid_id=@kid_id; ";
-            ht.Add(@"@Name", new SQLParameter(UpdateData.name, SqlDbType.NVarChar));
+            string sql = $@"UPDATE kid SET name=@name,image=@image WHERE kid_id=@kid_id; ";
+            ht.Add(@"@name", new SQLParameter(UpdateData.name, SqlDbType.NVarChar));
             ht.Add(@"@image", new SQLParameter(FileName, SqlDbType.NVarChar));
             ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(UpdateData.kid_id), SqlDbType.UniqueIdentifier));
             _MssqlConnect.Execute(sql, ht);

@@ -33,26 +33,14 @@ namespace backend.Controllers.Ch09
             {
                 if (_service.checkMember(newRegist.email))
                 {
-                    string fileExtension = Path.GetExtension(newRegist.image.FileName);
-                    if (IsImageFile(fileExtension))
+                    //string fileExtension = Path.GetExtension(newRegist.image.FileName);
+                    _service.Register(newRegist);
+                    return Ok(new ResultViewModel<string>
                     {
-                        _service.Register(newRegist);
-                        return Ok(new ResultViewModel<string>
-                        {
-                            isSuccess = true,
-                            message = "註冊成功，請去收信來驗證",
-                            Result = null,
-                        });
-                    }
-                    else
-                    {
-                        return BadRequest(new ResultViewModel<string>
-                        {
-                            isSuccess = false,
-                            message = "檔案型態錯誤",
-                            Result = null
-                        });
-                    }
+                        isSuccess = true,
+                        message = "註冊成功，請去收信來驗證",
+                        Result = null,
+                    });
                 }
                 else
                 {
@@ -207,27 +195,13 @@ namespace backend.Controllers.Ch09
         {
             try
             {
-                string fileExtension = Path.GetExtension(EditData.image.FileName);
-                if (IsImageFile(fileExtension))
+                _service.Edit(EditData);
+                return Ok(new ResultViewModel<string>
                 {
-                    _service.Edit(EditData);
-                    return Ok(new ResultViewModel<string>
-                    {
-                        isSuccess = true,
-                        message = "修改成功",
-                        Result = null,
-                    });
-                }
-                else
-                {
-                    return BadRequest(new ResultViewModel<string>
-                    {
-                        isSuccess = true,
-                        message = "檔案格式錯誤",
-                        Result = null,
-                    });
-                }
-
+                    isSuccess = true,
+                    message = "修改成功",
+                    Result = null,
+                });
             }
             catch (Exception e)
             {
@@ -283,6 +257,8 @@ namespace backend.Controllers.Ch09
         {
             string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
             return imageExtensions.Contains(fileExtension.ToLower());
+            //string fileExtension = Path.GetExtension(EditData.image.FileName);
+            //    if (IsImageFile(fileExtension))
         }
     }
 }

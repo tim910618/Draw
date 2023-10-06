@@ -9,21 +9,7 @@ namespace backend.ViewModels
         public string birth{get;set;}
         public bool gender{get;set;}
         public string image{get;set;}
-        
-        public string? age_0004{get;set;}
-        public string? age_0006{get;set;}
-        public string? age_0009{get;set;}
-        public string? age_0100{get;set;}
-        public string? age_0103{get;set;}
-        public string? age_0106{get;set;}
-        public string? age_0200{get;set;}
-        public string? age_0206{get;set;}
-        public string? age_0300{get;set;}
-        public string? age_0306{get;set;}
-        public string? age_0400{get;set;}
-        public string? age_0500{get;set;}
-        public string? age_0600{get;set;}
-
+        //年齡
         public string age{get;set;}
     }
 }
