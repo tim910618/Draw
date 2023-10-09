@@ -36,7 +36,6 @@ namespace backend.Services
             }
             var path = Path.Combine(folderPath, FileName);
             
-            //string DataName=model.pic.FileName;
             _PaintingDao.Insert(model,FileName);
 
             //存到路徑裡面
