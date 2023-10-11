@@ -143,12 +143,14 @@ namespace backend.Middleware
             if ((Path == "/api/Parents/Regist" && URLMethod == "POST"))
                 return false;
             if ((Path == "/api/Parents/emailValidate" && URLMethod == "POST"))
-                return false;    
+                return false;
             if ((Path == "/api/Parents/login" && URLMethod == "POST"))
                 return false;
             if ((Path == "/api/Parents/ForgetPassword" && URLMethod == "POST"))
                 return false;
             if ((Path.ToLower().Contains("/api/Image".ToLower()) && URLMethod == "GET"))
+                return false;
+            if ((Path == "/api/Guestbooks/TEST" && URLMethod == "GET"))
                 return false;
             // if (Path.ToLower().Contains("/api/Sample".ToLower()))
             //     return false;
