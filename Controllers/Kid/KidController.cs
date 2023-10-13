@@ -79,7 +79,7 @@ namespace backend.Controllers
         #endregion
         #region 新增小孩
         [HttpPost]
-        public IActionResult Insert([FromForm] KidInsertImportModel model)
+        public IActionResult Insert([FromBody] KidInsertImportModel model)
         {
             try
             {

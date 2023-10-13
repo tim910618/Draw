@@ -27,7 +27,7 @@ namespace backend.Controllers.Ch09
         #region 註冊
         [HttpPost]
         [Route("Regist")]
-        public IActionResult Regist([FromForm] RegisterImportModel newRegist)
+        public IActionResult Regist([FromBody] RegisterImportModel newRegist)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace backend.Controllers.Ch09
         }
 
         [HttpPost("emailValidate")]
-        public IActionResult EmailValidate([FromForm] EmailValidate Data)
+        public IActionResult EmailValidate([FromBody] EmailValidate Data)
         {
             try
             {
