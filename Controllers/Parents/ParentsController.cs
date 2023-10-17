@@ -164,7 +164,7 @@ namespace backend.Controllers.Ch09
         }
 
         //查看自己資料
-        [HttpGet]
+        [HttpPost]
         [Route("ParentData")]
         public IActionResult ParentData([FromBody] ParentDataModel Date)
         {
