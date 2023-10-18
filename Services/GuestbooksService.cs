@@ -82,7 +82,7 @@ namespace backend.Services
         public void TEST()
         {
             //Id
-            int id = 32;//359
+            
             //Type
             int a = 1; int b = 2; int c = 3;
             //Choose
