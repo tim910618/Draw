@@ -15,8 +15,8 @@ namespace backend.Controllers
     public class MedicalController : ControllerBase
     {
         private readonly ILogger<MedicalController> _logger;
-        private readonly GuestbooksService _service;
-        public MedicalController(ILogger<MedicalController> logger, GuestbooksService service)
+        private readonly MedicalService _service;
+        public MedicalController(ILogger<MedicalController> logger, MedicalService service)
         {
             this._logger = logger;
             this._service = service;
@@ -25,11 +25,11 @@ namespace backend.Controllers
         #region 全部
         [HttpGet]
         [Route("List")]
-        public IActionResult Get()
+        public IActionResult List()
         {
             try
             {
-                return Ok(new ResultViewModel<List<GuestbooksViewModel>>
+                return Ok(new ResultViewModel<List<MedicalViewModel>>
                 {
                     isSuccess = false,
                     message = string.Empty,
@@ -38,7 +38,7 @@ namespace backend.Controllers
             }
             catch (Exception e)
             {
-                return NotFound(new ResultViewModel<List<GuestbooksViewModel>>
+                return NotFound(new ResultViewModel<List<MedicalViewModel>>
                 {
                     isSuccess = false,
                     message = e.Message.ToString(),
@@ -50,20 +50,20 @@ namespace backend.Controllers
 
         #region 單筆
         [HttpGet]
-        public ActionResult Get(string id)
+        public ActionResult Only(MedicalImportModel Model)
         {
             try
             {
-                return Ok(new ResultViewModel<GuestbooksViewModel>
+                return Ok(new ResultViewModel<MedicalViewModel>
                 {
                     isSuccess = false,
                     message = string.Empty,
-                    Result = _service.GetDataById(id)
+                    Result = _service.GetDataById(Model)
                 });
             }
             catch (Exception e)
             {
-                return NotFound(new ResultViewModel<GuestbooksViewModel>
+                return NotFound(new ResultViewModel<MedicalViewModel>
                 {
                     isSuccess = false,
                     message = e.Message.ToString(),

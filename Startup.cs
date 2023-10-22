@@ -69,6 +69,7 @@ namespace backend
       services.AddScoped<Services.MailService>();
       services.AddScoped<Services.KidService>();
       services.AddScoped<Services.PaintingService>();
+      services.AddScoped<Services.MedicalService>();
 
 
       // Dao
@@ -76,6 +77,7 @@ namespace backend
       services.AddScoped<dao.guestbooksDao>();
       services.AddScoped<dao.kidDao>();
       services.AddScoped<dao.paintingDao>();
+      services.AddScoped<dao.medicalDao>();
 
 
       # endregion
