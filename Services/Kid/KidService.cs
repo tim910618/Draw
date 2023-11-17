@@ -127,7 +127,9 @@ namespace backend.Services
             var FileName = string.Empty;
             if (model.image != null && model.image.FileName != null)
             {
+                string base64 = convertType.iFormFileToBase64(model.image);
                 FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
+                //FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
             }
             else
             {
