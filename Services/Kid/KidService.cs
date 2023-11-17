@@ -107,7 +107,7 @@ namespace backend.Services
                 years--;
                 months += 12;
             }
-            
+
             Result = new KidViewModel
             {
                 kid_id = OnlyKid.kid_id.ToString(),
@@ -127,9 +127,7 @@ namespace backend.Services
             var FileName = string.Empty;
             if (model.image != null && model.image.FileName != null)
             {
-                string base64 = convertType.iFormFileToBase64(model.image);
                 FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
-                //FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.image.FileName);
             }
             else
             {
@@ -141,7 +139,7 @@ namespace backend.Services
                 Directory.CreateDirectory(folderPath);
             }
             var path = Path.Combine(folderPath, FileName);
-            
+
             _kidDao.Update(model, FileName);
 
             //存到路徑裡面
