@@ -80,7 +80,7 @@ namespace backend.Services
                     name = item.name,
                     birth = item.birth.ToString("yyyy-MM-dd"),
                     gender = item.gender,
-                    image = item.image,
+                    image = "C:\\IMAGE" + item.image,
                     age = years + "年" + months + "月",
                 });
             }
