@@ -25,6 +25,7 @@ using backend.Schedule;
 
 using Coravel;
 using backend.Middleware.jwt_t;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace backend
 {
@@ -82,15 +83,20 @@ namespace backend
 
       # endregion
       // JWT Authorize
-      services.AddScoped<IUserService_T,loginService>();
+      services.AddScoped<IUserService_T, loginService>();
       services.AddScoped<loginDao>();
-      
+
 
       services.AddControllers()
           .AddJsonOptions(options =>
               options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
       services.Configure<appSettings>(Configuration.GetSection("appSettings"));
+      //圖片大小
+      services.Configure<FormOptions>(options =>
+      {
+        options.MultipartBodyLengthLimit = long.MaxValue; // or a specific limit you desire
+      });
 
       services.AddSwaggerGen(c =>
       {
@@ -132,10 +138,10 @@ namespace backend
       app.UseRouting();
 
 
-       app.UseAuthorization();
+      app.UseAuthorization();
 
       /* 中介軟體 Middleware 設定 */
-       app.UseMiddleware<jwtMiddleware>();
+      app.UseMiddleware<jwtMiddleware>();
 
       app.UseEndpoints(endpoints =>
       {
@@ -147,10 +153,10 @@ namespace backend
 
       // provider.UseScheduler(scheduler =>
       // {
-            /* 套件參考 Coravel */
-            //// utc 時間，換算台北時間要+8
-            //// 故台北回推 -8
-            // scheduler.Schedule<createTableSchedule>().Cron("00 16 30 12 *");
+      /* 套件參考 Coravel */
+      //// utc 時間，換算台北時間要+8
+      //// 故台北回推 -8
+      // scheduler.Schedule<createTableSchedule>().Cron("00 16 30 12 *");
       // });
     }
   }
