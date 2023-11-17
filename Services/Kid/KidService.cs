@@ -114,7 +114,7 @@ namespace backend.Services
                 name = OnlyKid.name,
                 birth = OnlyKid.birth.ToString("yyyy-MM-dd"),
                 gender = OnlyKid.gender,
-                image = OnlyKid.image,
+                image = "C:\\IMAGE" + OnlyKid.image,
                 age = years + "年" + months + "月",
             };
             return Result;
