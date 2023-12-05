@@ -37,29 +37,12 @@ namespace backend.Controllers
             try
             {
                 List<KidViewModel> Result = _service.GetDataList();
-                List<ResultViewModelWithImage> resultListWithImages = new List<ResultViewModelWithImage>();
-
-                foreach (var result in Result)
-                {
-                    Byte[] b = System.IO.File.ReadAllBytes(@$"./{result.image}");
-                    string imageBase64 = Convert.ToBase64String(b);
-                    var resultViewModel = new ResultViewModelWithImage
-                    {
-                        isSuccess = true,
-                        message = string.Empty,
-                        Result = result,
-                        ImageBase64 = imageBase64
-                    };
-                    resultListWithImages.Add(resultViewModel);
-                }
-
-                return Ok(resultListWithImages);
-                /*return Ok(new ResultViewModel<List<KidViewModel>>
+                return Ok(new ResultViewModel<List<KidViewModel>>
                 {
                     isSuccess = true,
                     message = string.Empty,
                     Result = Result
-                });*/
+                });
             }
             catch (Exception e)
             {
