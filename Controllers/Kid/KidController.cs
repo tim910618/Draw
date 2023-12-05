@@ -37,12 +37,29 @@ namespace backend.Controllers
             try
             {
                 List<KidViewModel> Result = _service.GetDataList();
-                return Ok(new ResultViewModel<List<KidViewModel>>
+                List<ResultViewModelWithImage> resultListWithImages = new List<ResultViewModelWithImage>();
+
+                foreach (var result in Result)
+                {
+                    Byte[] b = System.IO.File.ReadAllBytes(@$"./{result.image}");
+                    string imageBase64 = Convert.ToBase64String(b);
+                    var resultViewModel = new ResultViewModelWithImage
+                    {
+                        isSuccess = true,
+                        message = string.Empty,
+                        Result = result,
+                        ImageBase64 = imageBase64
+                    };
+                    resultListWithImages.Add(resultViewModel);
+                }
+
+                return Ok(resultListWithImages);
+                /*return Ok(new ResultViewModel<List<KidViewModel>>
                 {
                     isSuccess = true,
                     message = string.Empty,
                     Result = Result
-                });
+                });*/
             }
             catch (Exception e)
             {
@@ -64,37 +81,12 @@ namespace backend.Controllers
             try
             {
                 KidViewModel Result = _service.GetDataByKid_Id(Data.kid_id);
-                /*string ResultExtension = string.Empty;
-                Byte[] b = System.IO.File.ReadAllBytes(@$"./{Result.image}");
-                switch (Path.GetExtension(Result.image))
-                {
-                    case ".jpg":
-                    case ".jpeg":
-                        ResultExtension = "image/jpeg";
-                        break;
-                    case ".png":
-                        ResultExtension = "image/png";
-                        break;
-                    default:
-                        break;
-                }
-                return File(b, ResultExtension);*/
-                Byte[] b = System.IO.File.ReadAllBytes(@$"./{Result.image}");
-                string imageBase64 = Convert.ToBase64String(b);
-                var resultViewModel = new ResultViewModelWithImage
-                {
-                    isSuccess = true,
-                    message = string.Empty,
-                    Result = Result,
-                    ImageBase64 = imageBase64
-                };
-                return Ok(resultViewModel);
-                /*return Ok(new ResultViewModel<KidViewModel>
+                return Ok(new ResultViewModel<KidViewModel>
                 {
                     isSuccess = true,
                     message = string.Empty,
                     Result = Result
-                });*/
+                });
             }
             catch (Exception e)
             {
