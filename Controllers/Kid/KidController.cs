@@ -24,6 +24,10 @@ namespace backend.Controllers
             this._logger = logger;
             this._service = service;
         }
+        public class ResultViewModelWithImage : ResultViewModel<KidViewModel>
+        {
+            public string ImageBase64 { get; set; }
+        }
 
         #region 顯示全部小孩資料
         [HttpGet]
@@ -54,17 +58,43 @@ namespace backend.Controllers
         #region 顯示單個小孩資料
         [HttpGet]
         [Route("OnlyKid")]
+
         public IActionResult Kid(KidOnlyModel Data)
         {
             try
             {
                 KidViewModel Result = _service.GetDataByKid_Id(Data.kid_id);
-                return Ok(new ResultViewModel<KidViewModel>
+                /*string ResultExtension = string.Empty;
+                Byte[] b = System.IO.File.ReadAllBytes(@$"./{Result.image}");
+                switch (Path.GetExtension(Result.image))
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                        ResultExtension = "image/jpeg";
+                        break;
+                    case ".png":
+                        ResultExtension = "image/png";
+                        break;
+                    default:
+                        break;
+                }
+                return File(b, ResultExtension);*/
+                Byte[] b = System.IO.File.ReadAllBytes(@$"./{Result.image}");
+                string imageBase64 = Convert.ToBase64String(b);
+                var resultViewModel = new ResultViewModelWithImage
+                {
+                    isSuccess = true,
+                    message = string.Empty,
+                    Result = Result,
+                    ImageBase64 = imageBase64
+                };
+                return Ok(resultViewModel);
+                /*return Ok(new ResultViewModel<KidViewModel>
                 {
                     isSuccess = true,
                     message = string.Empty,
                     Result = Result
-                });
+                });*/
             }
             catch (Exception e)
             {
