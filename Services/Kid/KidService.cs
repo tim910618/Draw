@@ -74,13 +74,17 @@ namespace backend.Services
                     months += 12;
                 }
 
+                byte[] imageData = File.ReadAllBytes(item.image);
+                string base64String = Convert.ToBase64String(imageData);
+                string dataUrl = "data:image/png;base64," + base64String;
+
                 Result.Add(new KidViewModel
                 {
                     kid_id = item.kid_id.ToString(),
                     name = item.name,
                     birth = item.birth.ToString("yyyy-MM-dd"),
                     gender = item.gender,
-                    image = "C:\\IMAGE" + item.image,
+                    image = dataUrl,
                     age = years + "年" + months + "月",
                 });
             }
