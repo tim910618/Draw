@@ -141,7 +141,7 @@ namespace backend.Middleware.jwt_t
             }
             else
             {
-                FileName = "default.jpg";
+                FileName = "default.png";
             }
 
             var folderPath = Path.Combine(this._appSettings.UploadPath, "ParentHead");

@@ -31,7 +31,7 @@ namespace backend.Services
             }
             else
             {
-                FileName = "default.jpg";
+                FileName = "default.png";
             }
             var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
             if (!Directory.Exists(folderPath))
@@ -74,7 +74,8 @@ namespace backend.Services
                     months += 12;
                 }
 
-                byte[] imageData = File.ReadAllBytes(item.image);
+                string imagePath = Path.Combine("C:\\IMAGE\\KidHead", item.image);
+                byte[] imageData = File.ReadAllBytes(imagePath);
                 string base64String = Convert.ToBase64String(imageData);
                 string dataUrl = "data:image/png;base64," + base64String;
 
@@ -135,7 +136,7 @@ namespace backend.Services
             }
             else
             {
-                FileName = "default.jpg";
+                FileName = "default.png";
             }
             var folderPath = Path.Combine(this._appSettings.UploadPath, "KidHead");
             if (!Directory.Exists(folderPath))
