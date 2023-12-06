@@ -98,8 +98,8 @@ namespace backend.Controllers
         {
             try
             {
-                KidHistoryViewModel Result = _paintingservice.HistoryById(model);
-                return Ok(new ResultViewModel<KidHistoryViewModel>
+                KidHistoryOneViewModels Result = _paintingservice.HistoryById(model);
+                return Ok(new ResultViewModel<KidHistoryOneViewModels>
                 {
                     isSuccess = true,
                     message = "查詢成功",

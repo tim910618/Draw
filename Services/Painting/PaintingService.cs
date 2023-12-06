@@ -87,10 +87,8 @@ namespace backend.Services
             List<KidHistoryViewModel> Result = new List<KidHistoryViewModel>();
             List<Painting> DataList = _PaintingDao.History(model);
 
-
             foreach (var item in DataList)
             {
-
                 string imagePath = Path.Combine("C:\\IMAGE", item.picture);
                 byte[] imageData = File.ReadAllBytes(imagePath);
                 string base64String = Convert.ToBase64String(imageData);
@@ -107,9 +105,9 @@ namespace backend.Services
         }
         #endregion
         #region 歷史紀錄單筆
-        public KidHistoryViewModel HistoryById(PaintingHistoryByIdImportModel model)
+        public KidHistoryOneViewModels HistoryById(PaintingHistoryByIdImportModel model)
         {
-            KidHistoryViewModel Result = new KidHistoryViewModel();
+            KidHistoryOneViewModels Result = new KidHistoryOneViewModels();
             Painting Data = _PaintingDao.GetHistoryById(model);
 
             string imagePath = Path.Combine("C:\\IMAGE", Data.picture);
@@ -117,8 +115,25 @@ namespace backend.Services
             string base64String = Convert.ToBase64String(imageData);
             string dataUrl = "data:image/png;base64," + base64String;
 
-            Result = new KidHistoryViewModel
+            Kids OnlyKid = _kidDao.GetDataByKid_Id(model.kid_id);
+            //age 幾年幾個月
+            DateTime currentDate = DateTime.Now;
+            int years = currentDate.Year - OnlyKid.birth.Year;
+            int months = currentDate.Month - OnlyKid.birth.Month;
+            if (currentDate.Day < OnlyKid.birth.Day)
             {
+                months--;
+            }
+            if (months < 0)
+            {
+                years--;
+                months += 12;
+            }
+            Random random = new Random();
+
+            Result = new KidHistoryOneViewModels
+            {
+                age = years.ToString(),
                 result = Data.result,
                 create_time = Data.create_time.ToString(),
                 image = dataUrl,
