@@ -39,7 +39,7 @@ namespace backend.dao
         }
 
         #region 新增
-        public void Insert(PaintingInsertImportModel model, string FileName)
+        public void Insert(PaintingInsertImportModel model, string FileName, string result)
         {
             Hashtable ht = new Hashtable();
             string date = common.DateFormat_full(DateTime.Now);
@@ -49,7 +49,7 @@ namespace backend.dao
 
             ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(model.kid_id), SqlDbType.UniqueIdentifier));
             ht.Add(@"@picture", new SQLParameter(FileName, SqlDbType.NVarChar));
-            ht.Add(@"@result", new SQLParameter(model.result, SqlDbType.NVarChar));
+            ht.Add(@"@result", new SQLParameter(result, SqlDbType.NVarChar));
             ht.Add(@"@create_time", new SQLParameter(date, SqlDbType.DateTime2));
             _MssqlConnect.Execute(sql, ht);
         }
@@ -79,6 +79,17 @@ namespace backend.dao
             ht.Add(@"@email", new SQLParameter(_AccountNumber, SqlDbType.NVarChar));
             ht.Add(@"@kid_id", new SQLParameter(Guid.Parse(kid_id), SqlDbType.UniqueIdentifier));
             Result = _MssqlConnect.GetDataList<Kids>(sql, ht).FirstOrDefault();
+            return Result;
+        }
+        #endregion
+        #region 歷史紀錄
+        public List<Painting> History(PaintingHistoryImportModel model)
+        {
+            List<Painting> Result = new List<Painting>();
+            Hashtable ht = new Hashtable();
+            string sql = @"SELECT * FROM painting WHERE kid_id=@kid_id ";
+            ht.Add(@$"@kid_id", new SQLParameter(Guid.Parse(model.kid_id), SqlDbType.UniqueIdentifier));
+            Result = _MssqlConnect.GetDataList<Painting>(sql, ht);
             return Result;
         }
         #endregion

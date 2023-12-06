@@ -28,6 +28,7 @@ namespace backend.Controllers
 
         #region 上傳圖片
         [HttpPost]
+        [Route("Insert")]
         public IActionResult Insert([FromForm] PaintingInsertImportModel model)
         {
             try
@@ -52,6 +53,32 @@ namespace backend.Controllers
                         Result = null
                     });
                 }
+            }
+            catch (Exception e)
+            {
+                return NotFound(new ResultViewModel<string>
+                {
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null
+                });
+            }
+        }
+        #endregion
+        #region 歷史紀錄(ALL)
+        [HttpPost]
+        [Route("History")]
+        public IActionResult History([FromBody] PaintingHistoryImportModel model)
+        {
+            try
+            {
+                List<KidHistoryViewModel> Result = _paintingservice.History(model);
+                return Ok(new ResultViewModel<List<KidHistoryViewModel>>
+                {
+                    isSuccess = true,
+                    message = "查詢成功",
+                    Result = Result
+                });
             }
             catch (Exception e)
             {
