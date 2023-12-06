@@ -98,7 +98,7 @@ namespace backend.dao
         {
             Painting Result = new Painting();
             Hashtable ht = new Hashtable();
-            string sql = @"SELECT * FROM painting WHERE painting_id=@painting_id and ";
+            string sql = @"SELECT * FROM painting WHERE painting_id=@painting_id ";
             ht.Add(@$"@painting_id", new SQLParameter(Guid.Parse(model.painting_id), SqlDbType.UniqueIdentifier));
             Result = _MssqlConnect.GetDataList<Painting>(sql, ht).FirstOrDefault();
             return Result;
