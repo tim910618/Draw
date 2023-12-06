@@ -106,5 +106,26 @@ namespace backend.Services
             return Result;
         }
         #endregion
+        #region 歷史紀錄單筆
+        public KidHistoryViewModel HistoryById(PaintingHistoryByIdImportModel model)
+        {
+            KidHistoryViewModel Result = new KidHistoryViewModel();
+            Painting Data = _PaintingDao.GetHistoryById(model);
+
+            string imagePath = Path.Combine("C:\\IMAGE", Data.picture);
+            byte[] imageData = File.ReadAllBytes(imagePath);
+            string base64String = Convert.ToBase64String(imageData);
+            string dataUrl = "data:image/png;base64," + base64String;
+
+            Result = new KidHistoryViewModel
+            {
+                result = Data.result,
+                create_time = Data.create_time.ToString(),
+                image = dataUrl,
+            };
+
+            return Result;
+        }
+        #endregion
     }
 }

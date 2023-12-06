@@ -93,5 +93,16 @@ namespace backend.dao
             return Result;
         }
         #endregion
+        #region 歷史紀錄單筆
+        public Painting GetHistoryById(PaintingHistoryByIdImportModel model)
+        {
+            Painting Result = new Painting();
+            Hashtable ht = new Hashtable();
+            string sql = @"SELECT * FROM painting WHERE painting_id=@painting_id and ";
+            ht.Add(@$"@painting_id", new SQLParameter(Guid.Parse(model.painting_id), SqlDbType.UniqueIdentifier));
+            Result = _MssqlConnect.GetDataList<Painting>(sql, ht).FirstOrDefault();
+            return Result;
+        }
+        #endregion
     }
 }

@@ -91,6 +91,32 @@ namespace backend.Controllers
             }
         }
         #endregion
+        #region 歷史紀錄(One)
+        [HttpPost]
+        [Route("HistoryOne")]
+        public IActionResult HistoryOne([FromBody] PaintingHistoryByIdImportModel model)
+        {
+            try
+            {
+                KidHistoryViewModel Result = _paintingservice.HistoryById(model);
+                return Ok(new ResultViewModel<KidHistoryViewModel>
+                {
+                    isSuccess = true,
+                    message = "查詢成功",
+                    Result = Result
+                });
+            }
+            catch (Exception e)
+            {
+                return NotFound(new ResultViewModel<string>
+                {
+                    isSuccess = false,
+                    message = e.Message.ToString(),
+                    Result = null
+                });
+            }
+        }
+        #endregion
         private bool IsImageFile(string fileExtension)
         {
             string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
