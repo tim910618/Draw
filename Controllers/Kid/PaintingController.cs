@@ -36,12 +36,12 @@ namespace backend.Controllers
                 string fileExtension = Path.GetExtension(model.picture.FileName);
                 if (IsImageFile(fileExtension))
                 {
-                    _paintingservice.Insert(model);
+                    string result = _paintingservice.Insert(model);
                     return Ok(new ResultViewModel<string>
                     {
                         isSuccess = true,
                         message = "新增成功",
-                        Result = null
+                        Result = result
                     });
                 }
                 else

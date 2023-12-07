@@ -28,7 +28,7 @@ namespace backend.Services
         }
 
         #region 新增
-        public void Insert(PaintingInsertImportModel model)
+        public string Insert(PaintingInsertImportModel model)
         {
             var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.picture.FileName);
             var folderPath = Path.Combine(this._appSettings.UploadPath);
@@ -59,13 +59,15 @@ namespace backend.Services
             string result = randomValue.ToString();
 
 
-            _PaintingDao.Insert(model, FileName, result);
+            Guid painting_id = Guid.NewGuid();
+            _PaintingDao.Insert(painting_id, model, FileName, result);
 
             //存到路徑裡面
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 model.picture.CopyTo(stream);
             }
+            return painting_id.ToString();
         }
         #endregion
         #region 搜尋
