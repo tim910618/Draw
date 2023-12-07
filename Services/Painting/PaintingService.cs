@@ -71,9 +71,9 @@ namespace backend.Services
             KidViewModelID Result = new KidViewModelID();
             Result = new KidViewModelID
             {
-                KidViewModelID = painting_id.ToString(),
+                painting_id = OnlyKid.kid_id.ToString(),
             };
-            return KidViewModelID;
+            return Result;
         }
         #endregion
         #region 搜尋
