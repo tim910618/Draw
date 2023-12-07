@@ -96,6 +96,7 @@ namespace backend.Services
 
                 Result.Add(new KidHistoryViewModel
                 {
+                    painting_id = item.painting_id.ToString(),
                     result = item.result,
                     create_time = item.create_time.ToString(),
                     image = dataUrl,
