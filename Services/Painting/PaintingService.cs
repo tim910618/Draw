@@ -28,7 +28,7 @@ namespace backend.Services
         }
 
         #region 新增
-        public string Insert(PaintingInsertImportModel model)
+        public KidViewModelID Insert(PaintingInsertImportModel model)
         {
             var FileName = Guid.NewGuid().ToString() + Path.GetExtension(model.picture.FileName);
             var folderPath = Path.Combine(this._appSettings.UploadPath);
@@ -67,7 +67,13 @@ namespace backend.Services
             {
                 model.picture.CopyTo(stream);
             }
-            return painting_id.ToString();
+
+            KidViewModelID Result = new KidViewModelID();
+            Result = new KidViewModelID
+            {
+                KidViewModelID = painting_id.ToString(),
+            };
+            return KidViewModelID;
         }
         #endregion
         #region 搜尋

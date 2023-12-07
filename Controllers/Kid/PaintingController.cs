@@ -36,8 +36,8 @@ namespace backend.Controllers
                 string fileExtension = Path.GetExtension(model.picture.FileName);
                 if (IsImageFile(fileExtension))
                 {
-                    string result = _paintingservice.Insert(model);
-                    return Ok(new ResultViewModel<string>
+                    KidViewModelID result = _paintingservice.Insert(model);
+                    return Ok(new ResultViewModel<KidViewModelID>
                     {
                         isSuccess = true,
                         message = "新增成功",
