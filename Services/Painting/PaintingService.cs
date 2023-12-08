@@ -102,8 +102,24 @@ namespace backend.Services
                 string base64String = Convert.ToBase64String(imageData);
                 string dataUrl = "data:image/png;base64," + base64String;
 
+                Kids OnlyKid = _kidDao.GetDataByKid_Id(model.kid_id);
+                //age 幾年幾個月
+                DateTime currentDate = DateTime.Now;
+                int years = currentDate.Year - OnlyKid.birth.Year;
+                int months = currentDate.Month - OnlyKid.birth.Month;
+                if (currentDate.Day < OnlyKid.birth.Day)
+                {
+                    months--;
+                }
+                if (months < 0)
+                {
+                    years--;
+                    months += 12;
+                }
+
                 Result.Add(new KidHistoryViewModel
                 {
+                    age = years.ToString(),
                     painting_id = item.painting_id.ToString(),
                     result = item.result,
                     create_time = item.create_time.ToString(),
